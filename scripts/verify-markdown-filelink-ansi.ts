@@ -180,6 +180,22 @@ try {
         line.includes('\u001b]8;;https://example.com/x\u0007')),
     JSON.stringify(wrappedLink),
   )
+  // rio 接受 OSC 8，但会把目标原样交给系统打开器，而 `dsh-file:` 没有处理器：
+  // 文件路径必须退回纯文本（交给 rio 自己的路径 hint），URL 链接照发。
+  process.env.TERM_PROGRAM = 'rio'
+  const rioMixed = applyMarkdown(
+    '见 `src/utils/fileTarget.ts` 与 [链接](https://example.com)',
+  )
+  check(
+    'rio 下不发 dsh-file 文件链接',
+    !rioMixed.includes('dsh-file:'),
+    JSON.stringify(rioMixed).slice(0, 200),
+  )
+  check(
+    'rio 下 https 链接仍带 OSC 8',
+    rioMixed.includes('\u001b]8;;https://example.com'),
+    JSON.stringify(rioMixed).slice(0, 200),
+  )
 } finally {
   chalk.level = prevLevel
 }

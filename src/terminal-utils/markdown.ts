@@ -16,7 +16,7 @@ import chalk from 'chalk'
 import { marked, type MarkedToken, type Token, type Tokens } from 'marked'
 import stripAnsi from 'strip-ansi'
 import { stringWidth } from '../ink/stringWidth.js'
-import { supportsHyperlinks } from '../ink/supports-hyperlinks.js'
+import { supportsFileLinkScheme, supportsHyperlinks } from '../ink/supports-hyperlinks.js'
 import { colorize } from '../ink/colorize.js'
 import { getActiveTheme } from '../theme.js'
 import { buildSyntaxTheme } from './syntaxTheme.js'
@@ -121,7 +121,7 @@ function renderCodeSpan(token: Tokens.Codespan): string {
   // `[38;2;…m` parameter text on screen.
   const paint = (text: string): string => paintInlineCode(text)
   if (!looksLikeFilePath(token.text)) return paint(token.text)
-  if (!supportsHyperlinks()) return paint(token.text)
+  if (!supportsFileLinkScheme()) return paint(token.text)
   return createHyperlink(fileLinkUrl(token.text), token.text, {
     style: paint,
   })
@@ -135,7 +135,7 @@ function renderCodeSpan(token: Tokens.Codespan): string {
  * `dsh-file:` payload — worse than plain text).
  */
 function linkifyText(text: string): string {
-  const withFiles = supportsHyperlinks()
+  const withFiles = supportsFileLinkScheme()
     ? linkifyFilePaths(text, (path, display) =>
         createHyperlink(fileLinkUrl(path), display),
       )
