@@ -4,7 +4,7 @@
     {
       "name": "@plintash/dsh-tui",
       "scope": "@plintash",
-      "version": "0.17.1-plintash.2"
+      "version": "0.17.2"
     }
   ]
 }
