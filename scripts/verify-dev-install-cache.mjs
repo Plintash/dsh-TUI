@@ -24,7 +24,7 @@ const dev = join(root, 'dev')
 const tools = join(root, 'tools')
 const log = join(root, 'calls.jsonl')
 const stamp = join(dev, 'dev-install-cache.json')
-const installed = join(dev, 'dsh-home/profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui')
+const installed = join(dev, 'dsh-home/profiles/dsh-tui/node_modules/@plintash/dsh-tui')
 const put = (path, value = 'fixture\n') => {
   mkdirSync(dirname(path), { recursive: true })
   writeFileSync(path, value)
@@ -35,7 +35,7 @@ try {
     mkdirSync(dirname(target), { recursive: true })
     copyFileSync(join(source, 'scripts', file), target)
   }
-  put(join(repo, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '1.0.0', type: 'module' }))
+  put(join(repo, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '1.0.0', type: 'module' }))
   for (const file of ['AGENTS.md', 'src/app.ts', 'scripts/compiler.mjs', 'pnpm-lock.yaml', 'cordis.patch.yml', 'presets/base.yml', 'assets/icon.txt', 'bin/dsh-tui.js']) put(join(repo, file))
   symlinkSync('AGENTS.md', join(repo, 'CLAUDE.md'))
   for (const file of ['.modules.yaml', '.pnpm/lock.yaml']) put(join(repo, 'node_modules', file))
@@ -75,11 +75,11 @@ if (tool === 'npm' && args[0] === 'pack') {
 if (tool === 'dsh' && args[0] === 'plugin') {
   const profile = join(process.env.DSH_HOME, 'profiles/dsh-tui')
   put(join(profile, 'package.json'), '{"dependencies":{"fixture":"file:fixture.tgz"}}')
-  const installed = join(profile, 'node_modules/@deepseek-harness-tui/dsh-tui')
-  const packageDir = join(profile, 'node_modules/.pnpm/fixture/node_modules/@deepseek-harness-tui/dsh-tui')
+  const installed = join(profile, 'node_modules/@plintash/dsh-tui')
+  const packageDir = join(profile, 'node_modules/.pnpm/fixture/node_modules/@plintash/dsh-tui')
   mkdirSync(packageDir, { recursive: true })
   mkdirSync(dirname(installed), { recursive: true })
-  if (!existsSync(installed)) symlinkSync('../.pnpm/fixture/node_modules/@deepseek-harness-tui/dsh-tui', installed)
+  if (!existsSync(installed)) symlinkSync('../.pnpm/fixture/node_modules/@plintash/dsh-tui', installed)
   for (const file of payload) {
     mkdirSync(dirname(join(installed, file)), { recursive: true })
     copyFileSync(file, join(installed, file))

@@ -7,12 +7,12 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@deepseek-harness-tui/dsh-tui"><img alt="npm" src="https://img.shields.io/npm/v/@deepseek-harness-tui/dsh-tui?style=flat-square&color=4b6fff"></a>
+  <a href="https://www.npmjs.com/package/@plintash/dsh-tui"><img alt="npm" src="https://img.shields.io/npm/v/@plintash/dsh-tui?style=flat-square&color=4b6fff"></a>
   <a href="https://github.com/ccch1mneyyy/dsh-TUI/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ccch1mneyyy/dsh-TUI/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-263146?style=flat-square"></a>
   <img alt="Public beta" src="https://img.shields.io/badge/status-public%20beta-7da1de?style=flat-square">
   <a href="https://github.com/ccch1mneyyy/dsh-TUI/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/ccch1mneyyy/dsh-TUI?style=flat-square&color=4b6fff"></a>
-  <a href="https://www.npmjs.com/package/@deepseek-harness-tui/dsh-tui"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@deepseek-harness-tui/dsh-tui?style=flat-square&color=4b6fff"></a>
+  <a href="https://www.npmjs.com/package/@plintash/dsh-tui"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@plintash/dsh-tui?style=flat-square&color=4b6fff"></a>
 </p>
 
 # dsh-TUI
@@ -152,7 +152,7 @@ every kernel; the first launch imports it once from the profile's `cordis.patch.
 
 ```sh
 # Install the CLI and this plugin globally (ships the dsh-tui command)
-npm install -g @deepseek-ai/dsh @deepseek-harness-tui/dsh-tui
+npm install -g @deepseek-ai/dsh @plintash/dsh-tui
 
 # Start (first run auto-initializes the profile; needs pnpm)
 dsh-tui
@@ -160,7 +160,7 @@ dsh-tui
 dst
 ```
 
-Manual alternative: `dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui`.
+Manual alternative: `dsh plugin --profile dsh-tui add @plintash/dsh-tui`.
 The repo's `sh install.sh` runs that step and checks the required commands.
 Afterwards `dsh-tui` and `dsh --profile dsh-tui` are equivalent.
 
@@ -598,7 +598,7 @@ clean output directory and runs the build gates. **Git URL installs are not
 supported.** The source manifest keeps `@dsh-std/*` as workspace deps and
 `vendor/dsh-std` as a submodule. pnpm ≥11 also refuses git-hosted `prepare`
 scripts by default. Install the registry package instead:
-`dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui`. Rendering,
+`dsh plugin --profile dsh-tui add @plintash/dsh-tui`. Rendering,
 questionnaire, or tool-card changes also need the matching regression scripts.
 
 ## Plugin Ecosystem

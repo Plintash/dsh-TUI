@@ -158,8 +158,8 @@ test('migrated single-file global launcher uses updated profile CLI and preserve
   const global = join(temp, 'global')
   await mkdir(join(global, 'bin'), { recursive: true })
   await copyFile(launcher, join(global, 'bin/dsh-tui.js'))
-  await writeFile(join(global, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '0.15.0', type: 'module' }))
-  const profile = join(home, 'profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui/cli')
+  await writeFile(join(global, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '0.15.0', type: 'module' }))
+  const profile = join(home, 'profiles/dsh-tui/node_modules/@plintash/dsh-tui/cli')
   await mkdir(profile, { recursive: true })
   await writeFile(join(profile, 'entry.mjs'), 'export async function main(args) { console.log(JSON.stringify(args)); return 17 }')
   const execute = args => new Promise((resolve, reject) => {

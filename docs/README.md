@@ -62,7 +62,7 @@ The root README lists what ships; the details live here. Chinese files have no s
 ## 快速入口 / Quick links
 
 - 中文项目首页 [README_ZH.md](../README_ZH.md) · English project page [README.md](../README.md)
-- npm 包：[`@deepseek-harness-tui/dsh-tui`](https://www.npmjs.com/package/@deepseek-harness-tui/dsh-tui)
+- npm 包：[`@plintash/dsh-tui`](https://www.npmjs.com/package/@plintash/dsh-tui)
 - DeepSeek Harness 配置目录：[官方参考](https://deepseek-harness.github.io/deepseek-harness/reference/config-catalog)
 
 > 文档描述当前仓库版本；配置行为以 `package.json`、`cordis.patch.yml`、`src/index.ts` 与实际 DSH 组合为准。

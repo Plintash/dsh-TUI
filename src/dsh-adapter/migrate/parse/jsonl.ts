@@ -7,7 +7,7 @@
  * fails to parse is COUNTED, so a truncated or corrupted source shows up in
  * the import stats instead of vanishing quietly.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/parse/jsonl
+ * @module @plintash/dsh-tui/migrate/parse/jsonl
  */
 
 // The reader is shared with the Claude backend's transcript reader and lives

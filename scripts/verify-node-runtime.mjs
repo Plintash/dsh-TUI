@@ -12,7 +12,7 @@ const fixture = mkdtempSync(join(tmpdir(), 'dsh-node-runtime #-'))
 try {
   mkdirSync(join(fixture, 'bin'))
   copyFileSync(join(root, 'bin/dsh-tui.js'), join(fixture, 'bin/dsh-tui.js'))
-  const manifest = (range, name = '@deepseek-harness-tui/dsh-tui') => writeFileSync(join(fixture, 'package.json'), JSON.stringify({
+  const manifest = (range, name = '@plintash/dsh-tui') => writeFileSync(join(fixture, 'package.json'), JSON.stringify({
     name, version: '0.0.0', type: 'module', engines: { node: range },
   }))
   for (const command of ['dsh', 'pnpm']) {

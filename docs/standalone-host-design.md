@@ -156,7 +156,7 @@ Claude 内核不组合 dsh-base 时**写**没有去处。被否的「继续住 C
 
 ### 4.6 插件生态桥接
 
-- **插件代码不需要改**：第三方插件从 `@deepseek-harness-tui/dsh-tui/extensions` 等子路径拿类型、
+- **插件代码不需要改**：第三方插件从 `@plintash/dsh-tui/extensions` 等子路径拿类型、
   `inject: [tuiPanels, …]` 拿服务；单根下注册表就是那个 Cordis 根的同名服务。
 - **轻量 profile**：Claude / Codex 内核也要一个能装插件的组合，否则第三方扩展消失。入口在首帧之后
   用 `mountRootInclude` 把一份轻量组合挂到同一个根（裁剪表在 `lite-profile.ts`，组合在 `host-dsh.ts`）：

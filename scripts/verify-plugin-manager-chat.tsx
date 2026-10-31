@@ -100,8 +100,8 @@ const bundles: BundleInfo[] = [
     optional: false, removable: false, rows: [], overrides: ['hmr'],
   },
   {
-    name: '@deepseek-harness-tui/dsh-tui', version: '0.14.0', enabled: true, installed: true,
-    optional: false, removable: true, rows: [{ rowId: 'tui-row', moduleName: '@deepseek-harness-tui/dsh-tui' }], overrides: [],
+    name: '@plintash/dsh-tui', version: '0.14.0', enabled: true, installed: true,
+    optional: false, removable: true, rows: [{ rowId: 'tui-row', moduleName: '@plintash/dsh-tui' }], overrides: [],
   },
   {
     name: 'verify-plugin-undeclared', version: '3.1.4', enabled: false, installed: true,
@@ -415,7 +415,7 @@ for (const [fullscreen, columns, service] of [
           !rows.slice(teamAt + 1, worktreeAt).some(line => line.trim() === ''), screen())
       }
       check(`${tag}: list still leaves the installation's non-TUI bundles out`,
-        !hasText('@deepseek-ai/dsh-base') && !hasText('@deepseek-harness-tui/dsh-tui') &&
+        !hasText('@deepseek-ai/dsh-base') && !hasText('@plintash/dsh-tui') &&
         !hasText('Schedule') && !hasText(SCHEDULE_BUNDLE), screen())
       check(`${tag}: the person's own plugins still lead the list`,
         hasText('Plugins you added (2)') && hasText('verify-plugin-undeclared 3.1.4 · off'), screen())
@@ -445,7 +445,7 @@ for (const [fullscreen, columns, service] of [
       check(`${tag}: list answers`,
         await settled(() => hasText(t('plugins-list-header', { count: '2' }))), screen())
       check(`${tag}: list leaves the installation's own bundles out`,
-        !hasText('@deepseek-ai/dsh-base') && !hasText('@deepseek-harness-tui/dsh-tui'), screen())
+        !hasText('@deepseek-ai/dsh-base') && !hasText('@plintash/dsh-tui'), screen())
       check(`${tag}: list names the plugins the person added`,
         hasText(`verify-plugin-undeclared 3.1.4 · off · ${t('plugins-tag-undeclared')}`) &&
         hasText('verify-plugin-locked 4.0.0 · on · not removable'), screen())
@@ -612,7 +612,7 @@ for (const [fullscreen, columns, service] of [
       hasText(`verify-plugin-undeclared 3.1.4 · off · ${t('plugins-tag-undeclared')}`), screen())
     check(`${tag}: the composition's own rows carry no tag`,
       hasText('@deepseek-ai/dsh-base 0.2.0-rc.2 · on · not removable · rows 0 / overrides 1') &&
-      hasText('@deepseek-harness-tui/dsh-tui 0.14.0 · on · rows 1 / overrides 0'), screen())
+      hasText('@plintash/dsh-tui 0.14.0 · on · rows 1 / overrides 0'), screen())
     check(`${tag}: locked and problem states render verbatim`,
       hasText(`verify-plugin-locked 4.0.0 · on · not removable · ${t('plugins-bundle-locked', { reason: 'management-required' })} · ${t('plugins-bundle-problem', { code: 'bundle-in-use' })}`), screen())
     check(`${tag}: an unaddressable loader entry is listed separately`,

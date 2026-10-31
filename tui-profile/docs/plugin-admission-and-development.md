@@ -13,7 +13,7 @@
 [TUI Profile 总览](../README.md) · [设计说明](../notes/README.md) · [Adapter Note](../adapters/dsh-tui-v0.15.md)
 
 本文档面向想在 dsh-TUI 生态里做插件/扩展的开发者，以及需要评审、收录或验证插件的
-维护者。`@deepseek-harness-tui/dsh-tui` 是单包、纯 ESM 的 TypeScript 项目，通过
+维护者。`@plintash/dsh-tui` 是单包、纯 ESM 的 TypeScript 项目，通过
 Cordis 挂载到 DeepSeek Harness。生态插件与主包的关系：**主包只负责交互与呈现，
 插件负责在既有接缝上补充能力**。
 
@@ -603,7 +603,7 @@ import type {
   TuiRewindPromptEvent, TuiRewindPromptDecision, TuiRewindMode, TuiRewindDoneEvent,
   TuiSessionSwitchEvent, TuiSessionSwitchDecision, TuiSessionSwitchedEvent,
   TuiCompactEvent, TuiCompactDecision,
-} from '@deepseek-harness-tui/dsh-tui/extensions'
+} from '@plintash/dsh-tui/extensions'
 ```
 
 四个服务由主包的 `dsh-tui-extensions` 行挂载（cordis.patch.yml 已带），插件
@@ -751,7 +751,7 @@ revision 冲突重试全部由 TUI 宿主负责；存储、schema 校验、分�
 settings 服务（内核）侧——TUI 只做展示。
 
 ```ts
-import type { TuiSettingsSection } from '@deepseek-harness-tui/dsh-tui/settings-sections'
+import type { TuiSettingsSection } from '@plintash/dsh-tui/settings-sections'
 
 ctx.inject(['tuiSettingsSections'], (settingsCtx) => {
   const unregister = settingsCtx.tuiSettingsSections.register({
@@ -815,7 +815,7 @@ ctx.inject(['tuiSettingsSections'], (settingsCtx) => {
   再在真实 TTY 里跑 `dsh --profile dsh-tui`。
 - 已知坑：profile 里 pnpm 的隔离 node_modules 不会把**传递依赖**链接进 profile
   根，所以主包把自己的工作状态行插件以
-  `@deepseek-harness-tui/dsh-tui/working-activity` 子路径再导出后挂载。你的插件
+  `@plintash/dsh-tui/working-activity` 子路径再导出后挂载。你的插件
   如果也要被别的 bundle 组合，提供同样的显式子路径导出。
 
 ### preset 内的行（实验性）
@@ -827,7 +827,7 @@ realm 里，按 id 的 patch 够不到。dsh-TUI 注册的 preset（`standard` /
 ```yaml
 - insert:
     - id: my-plugin-standard
-      name: '@deepseek-harness-tui/dsh-tui/preset-patch'
+      name: '@plintash/dsh-tui/preset-patch'
       config:
         preset: standard
         config:
@@ -852,7 +852,7 @@ session 事件。
 **1. 注册场景**（`id` 全局唯一，kebab-case；重复或非法 id 注册即抛错）：
 
 ```ts
-import type { TuiSceneProps } from '@deepseek-harness-tui/dsh-tui/scenes'
+import type { TuiSceneProps } from '@plintash/dsh-tui/scenes'
 
 ctx.inject(['tuiScenes'], (sceneCtx) => {
   const dispose = sceneCtx.tuiScenes.register({
@@ -888,8 +888,8 @@ ctx.inject(['commands'], (commandCtx) => {
 
 ```tsx
 // tsconfig: "jsx": "react-jsx",
-//           "jsxImportSource": "@deepseek-harness-tui/dsh-tui"
-import type { TuiSceneProps } from '@deepseek-harness-tui/dsh-tui/scenes'
+//           "jsxImportSource": "@plintash/dsh-tui"
+import type { TuiSceneProps } from '@plintash/dsh-tui/scenes'
 
 export function MyDashboard({ React, ui, channel, close }: TuiSceneProps) {
   // hook 必须用注入的 React；JSX 经 jsxImportSource 走宿主 jsx-runtime
@@ -923,7 +923,7 @@ TUI 的 reconciler 是 **React 19**，场景组件运行在宿主的 React 实�
   `Symbol.for('react.transitional.element')` 元素；插件自带的旧版 React（18 及
   更早）编译出的 JSX 是 `Symbol.for('react.element')`，宿主 reconciler 直接拒绝。
   所以 JSX 作者必须把 tsconfig 的 `jsxImportSource` 指向
-  `@deepseek-harness-tui/dsh-tui`（它的 `./jsx-runtime` 子路径原样 re-export 宿主
+  `@plintash/dsh-tui`（它的 `./jsx-runtime` 子路径原样 re-export 宿主
   的 `react/jsx-runtime`），或者干脆只用注入 `React` 的 `createElement`。
   插件自带的 React 副本**仅当同为 19.x 时**产出的元素才合法，且 hook 依然禁用。
 
@@ -1045,7 +1045,7 @@ handler 生效**。宿主做了逐 handler 归一化与隔离：
 ### 示例：输入守卫 + 自定义命令输出
 
 ```ts
-import type { TuiInputEvent, TuiInputDecision } from '@deepseek-harness-tui/dsh-tui/extensions'
+import type { TuiInputEvent, TuiInputDecision } from '@plintash/dsh-tui/extensions'
 
 ctx.on('tui/input', (event: TuiInputEvent): TuiInputDecision | undefined => {
   // /my-command 由插件自己接管：不入会话、不发模型

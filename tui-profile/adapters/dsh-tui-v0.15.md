@@ -2,7 +2,7 @@
 
 **Status:** Current
 **Spec version:** community-v0.15 + tui-admission/0.15（`registry/registry-0.15.json`）
-**Host:** dsh-TUI 0.9.x（`@deepseek-harness-tui/dsh-tui`）/ Cordis 4.x profile；上游 `@deepseek-ai/*` 主校验线 `0.1.2-alpha.1`（兼容 `0.1.0-rc.6/7/8`、`0.1.1-rc.1/2`）
+**Host:** dsh-TUI 0.9.x（`@plintash/dsh-tui`）/ Cordis 4.x profile；上游 `@deepseek-ai/*` 主校验线 `0.1.2-alpha.1`（兼容 `0.1.0-rc.6/7/8`、`0.1.1-rc.1/2`）
 **仓库:** https://github.com/ccch1mneyyy/dsh-TUI（`src/dsh-adapter/`、`src/adapter/standard/`）
 
 ## 定位
@@ -66,7 +66,7 @@ definition 统一注册进 dsh-std `ProtocolCatalog`；权限与 protocol suppor
 | Descriptor 字段 | dsh-tui 实际值 |
 | --- | --- |
 | `$schema` | `urn:dsh-tui:host-descriptor:0.15` |
-| `hostId` / `hostVersion` | `dsh-tui` / `@deepseek-harness-tui/dsh-tui` package.json 版本（fallback `0.0.0`） |
+| `hostId` / `hostVersion` | `dsh-tui` / `@plintash/dsh-tui` package.json 版本（fallback `0.0.0`） |
 | `facetApiVersions` | `["v1alpha1"]`（vendored registry 的 facetApiVersions 存在且形态 `vN(alpha\|beta)M` 时优先） |
 | `contracts` | 从 vendored registry 解析；dsh-TUI 私有 definition 做 SHA-256 profile digest 校验（漂移即 drop，fail-closed）；support spec 过 `definition.validateSupport` |
 | Command 诚实规则（C-010） | 仅当 `ctx.get('commands')` 已挂载才声明 `commands.dsh/v1alpha1#Command`；裸/嵌入上下文不协商虚假 compatible |

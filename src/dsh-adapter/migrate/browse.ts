@@ -13,7 +13,7 @@
  * - a source is listed when its tab is opened, and within this run an
  *   unchanged conversation (same mtime and size) is not read a second time.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/browse
+ * @module @plintash/dsh-tui/migrate/browse
  */
 import type { ForeignImportOutcome, ForeignSessionRow, ForeignSource } from '../../adapter/ports/channel-session.js'
 import { walkFiles } from './adapters/scan-fs.js'

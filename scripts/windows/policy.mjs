@@ -1,7 +1,7 @@
 /** Pure installer decisions, shared by preflight, installation and regression tests. */
 import semver from 'semver'
 
-export const TUI_PACKAGE = '@deepseek-harness-tui/dsh-tui'
+export const TUI_PACKAGE = '@plintash/dsh-tui'
 export const DSH_PACKAGE = '@deepseek-ai/dsh'
 
 export function supportsNode(version, architecture, range) {

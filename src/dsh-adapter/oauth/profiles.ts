@@ -11,7 +11,7 @@
  * (llm-pi-ai's own `DEFAULT_*` constants are not exported; the values below
  * are those constants, and the comment on each says so).
  *
- * @module @deepseek-harness-tui/dsh-tui/oauth/profiles
+ * @module @plintash/dsh-tui/oauth/profiles
  */
 
 import { resolveRetryPolicy } from '@deepseek-ai/dsh-llm'

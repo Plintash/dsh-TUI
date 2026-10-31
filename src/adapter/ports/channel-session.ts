@@ -178,7 +178,7 @@ export interface SessionSummary {
  * provenance. So the types below carry both — the kind as a closed sum, and
  * every derived label together with the evidence that produced it.
  *
- * @module @deepseek-harness-tui/dsh-tui/sessions/types
+ * @module @plintash/dsh-tui/sessions/types
  */
 
 /**

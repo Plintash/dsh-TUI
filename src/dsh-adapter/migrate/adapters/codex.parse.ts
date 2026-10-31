@@ -19,7 +19,7 @@
  * item opens the next one. `agent_message` items (a sub-agent's report to
  * this thread) are inputs of the next model call.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/codex.parse
+ * @module @plintash/dsh-tui/migrate/adapters/codex.parse
  */
 import { isRecord, parseJsonl, type JsonRecord } from '../parse/jsonl.js'
 import { isInjectedText, unwrapUserText } from '../parse/injection.js'

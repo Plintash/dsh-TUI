@@ -5,7 +5,7 @@
  * parses each changed file whole (they are small; unchanged ones are reused
  * by fingerprint).
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/zcode
+ * @module @plintash/dsh-tui/migrate/adapters/zcode
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'

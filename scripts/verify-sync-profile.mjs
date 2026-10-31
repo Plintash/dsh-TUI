@@ -81,7 +81,7 @@ try {
   mkdirSync(join(fixtureRepo, 'scripts'), { recursive: true })
   copyFileSync(syncScript, fixtureScript)
   writeFileSync(join(fixtureRepo, 'package.json'), JSON.stringify({
-    name: '@deepseek-harness-tui/dsh-tui', version: '0.0.1', files: [FIXTURE, 'nested'],
+    name: '@plintash/dsh-tui', version: '0.0.1', files: [FIXTURE, 'nested'],
   }))
   copyFileSync(source, join(fixtureRepo, FIXTURE))
   mkdirSync(join(fixtureRepo, 'nested'))
@@ -92,7 +92,7 @@ try {
   const target = join(installed, FIXTURE)
   mkdirSync(installed, { recursive: true })
   // 目标目录必须像一个已安装的包：脚本先读它的 package.json。
-  writeFileSync(join(installed, 'package.json'), `${JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '0.0.0' })}\n`)
+  writeFileSync(join(installed, 'package.json'), `${JSON.stringify({ name: '@plintash/dsh-tui', version: '0.0.0' })}\n`)
   // 一个"store 条目"：目标文件与它共享同一个 inode。
   writeFileSync(sibling, SENTINEL)
   linkSync(sibling, target)

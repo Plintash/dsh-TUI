@@ -8,7 +8,7 @@
  * the whole listing. This mirrors the discipline the trajectory guards already
  * apply to session events.
  *
- * @module @deepseek-harness-tui/dsh-tui/sessions/header
+ * @module @plintash/dsh-tui/sessions/header
  */
 import type { SessionKind } from './types.js'
 

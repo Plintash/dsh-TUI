@@ -46,7 +46,7 @@
  * trailing `session/title` — a first-prompt fallback is left out so DSH
  * derives it from the first user message exactly as for a native session.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/sessionize
+ * @module @plintash/dsh-tui/migrate/sessionize
  */
 import {
   ToolCallId,

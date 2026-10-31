@@ -72,14 +72,14 @@ jobs:
         run: |
           version="$(node -p "require('./package.json').version")"
           for i in $(seq 1 30); do
-            if npm view "@deepseek-harness-tui/dsh-tui@$version" version >/dev/null 2>&1; then
-              echo "@deepseek-harness-tui/dsh-tui@$version is on npm"
+            if npm view "@plintash/dsh-tui@$version" version >/dev/null 2>&1; then
+              echo "@plintash/dsh-tui@$version is on npm"
               exit 0
             fi
-            echo "waiting for @deepseek-harness-tui/dsh-tui@$version on npm ($i/30)"
+            echo "waiting for @plintash/dsh-tui@$version on npm ($i/30)"
             sleep 30
           done
-          echo "@deepseek-harness-tui/dsh-tui@$version not on npm after 15 minutes"
+          echo "@plintash/dsh-tui@$version not on npm after 15 minutes"
           exit 1
 
       - name: Generate standalone portable bundles
@@ -154,7 +154,7 @@ jobs:
         run: |
           $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
           for ($attempt = 1; $attempt -le 30; $attempt++) {
-            npm view "@deepseek-harness-tui/dsh-tui@$version" version
+            npm view "@plintash/dsh-tui@$version" version
             if ($LASTEXITCODE -eq 0) { exit 0 }
             Start-Sleep -Seconds 30
           }

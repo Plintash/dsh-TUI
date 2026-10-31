@@ -288,7 +288,7 @@ try {
   writeFileSync(startupFile, JSON.stringify(await compiledStartup()))
   const stubDir = join(temp, 'bin')
   const dshHome = join(temp, '.dsh')
-  const profilePackage = join(dshHome, 'profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui')
+  const profilePackage = join(dshHome, 'profiles/dsh-tui/node_modules/@plintash/dsh-tui')
   const workspace = join(temp, 'literal workspace')
   const patch = join(temp, 'overlay with spaces.yml')
   for (const dir of [stubDir, join(profilePackage, 'bin'), join(temp, '.dsh-tui'), workspace]) {

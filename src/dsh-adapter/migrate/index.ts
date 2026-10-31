@@ -11,7 +11,7 @@
  * same session id and is skipped when already present: repeats neither stack
  * duplicates nor rewrite existing logs.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate
+ * @module @plintash/dsh-tui/migrate
  */
 import { Context } from '@deepseek-ai/cordis'
 import * as JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'

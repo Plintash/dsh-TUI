@@ -149,13 +149,13 @@ test('contract extraction derives bounds and rejects a primary outside the peer 
 })
 
 test('profile merge preserves other plugins and metadata without duplicating bundles', () => {
-  const original = { name: 'custom', private: true, dependencies: { other: '^1', '@deepseek-harness-tui/dsh-tui': '0.11.2' }, dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', 'other'], extra: true } } }
+  const original = { name: 'custom', private: true, dependencies: { other: '^1', '@plintash/dsh-tui': '0.11.2' }, dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', 'other'], extra: true } } }
   const merged = mergeProfile(original, '0.14.0')
-  assert.equal(original.dependencies['@deepseek-harness-tui/dsh-tui'], '0.11.2')
+  assert.equal(original.dependencies['@plintash/dsh-tui'], '0.11.2')
   assert.equal(merged.dependencies.other, '^1')
   assert.equal(merged.name, 'custom')
   assert.equal(merged.dsh.profile.extra, true)
-  assert.deepEqual(merged.dsh.profile.bundles, ['@deepseek-ai/dsh-base', 'other', '@deepseek-harness-tui/dsh-tui'])
+  assert.deepEqual(merged.dsh.profile.bundles, ['@deepseek-ai/dsh-base', 'other', '@plintash/dsh-tui'])
   assert.deepEqual(mergeProfile(merged, '0.14.0'), merged)
   assert.throws(() => mergeProfile({ dsh: { profile: { bundles: 'broken' } } }, '0.14.0'), /bundles/)
 })
@@ -244,7 +244,7 @@ function installationFixture(staged = false) {
   }
   for (const [name, commands, packageVersion] of [
     ['@deepseek-ai/dsh', ['dsh'], '0.2.0-rc.2'],
-    ['@deepseek-harness-tui/dsh-tui', ['dsh-tui', 'dst'], '0.14.0'],
+    ['@plintash/dsh-tui', ['dsh-tui', 'dst'], '0.14.0'],
     ['pnpm', ['pnpm', 'pnpx'], '11.21.0'],
   ]) {
     put(`global/node_modules/${name}/package.json`, JSON.stringify({ name, version: packageVersion, bin: Object.fromEntries(commands.map(command => [command, 'bin.js'])) }))
@@ -252,7 +252,7 @@ function installationFixture(staged = false) {
     for (const command of commands) for (const suffix of ['', '.cmd', '.ps1']) put(`global/${command}${suffix}`, `node_modules/${name}/bin.js`)
   }
   put('node/node.exe', 'fixture-runtime')
-  put('global/node_modules/@deepseek-harness-tui/dsh-tui/runtime/node/index.js', 'nested node entry')
+  put('global/node_modules/@plintash/dsh-tui/runtime/node/index.js', 'nested node entry')
   put('node/LICENSE', 'fixture-license')
   put('node/node_modules/npm/package.json', '{"name":"npm","version":"11.13.0"}')
   const fullMetadata = { ...metadata, schemaVersion: 1, nodeRange: '^22.19 || >=24', files }
@@ -261,7 +261,7 @@ function installationFixture(staged = false) {
 
 test('staged packages are promoted without copying while the profile remains an independent copy', () => {
   const { target, payload, metadata, context } = installationFixture(true)
-  const files = ['node_modules/@deepseek-ai/dsh/package.json', 'node_modules/@deepseek-harness-tui/dsh-tui/bin.js', 'node_modules/pnpm/package.json']
+  const files = ['node_modules/@deepseek-ai/dsh/package.json', 'node_modules/@plintash/dsh-tui/bin.js', 'node_modules/pnpm/package.json']
   const identities = files.map(file => statSync(join(payload, 'global', file), { bigint: true }).ino)
   installPayload(target, payload, metadata, {}, context)
   for (const [index, file] of files.entries()) assert.equal(statSync(join(target.prefix, file), { bigint: true }).ino, identities[index], file)
@@ -276,8 +276,8 @@ test('staged packages are promoted without copying while the profile remains an 
 test('a failed staged install restores existing packages after promotion', () => {
   const { target, payload, metadata, context } = installationFixture(true)
   const kernel = join(target.prefix, 'node_modules/@deepseek-ai/dsh/package.json')
-  const tui = join(target.prefix, 'node_modules/@deepseek-harness-tui/dsh-tui/package.json')
-  for (const [file, name] of [[kernel, '@deepseek-ai/dsh'], [tui, '@deepseek-harness-tui/dsh-tui']]) {
+  const tui = join(target.prefix, 'node_modules/@plintash/dsh-tui/package.json')
+  for (const [file, name] of [[kernel, '@deepseek-ai/dsh'], [tui, '@plintash/dsh-tui']]) {
     mkdirSync(join(file, '..'), { recursive: true })
     writeFileSync(file, JSON.stringify({ name, version: '0.0.1', custom: 'preserved' }))
   }
@@ -392,7 +392,7 @@ test('offline install seeds the profile and default uninstall preserves kernel a
   const credential = join(target.userHome, '.dsh/.credentials.yaml')
   mkdirSync(join(credential, '..'), { recursive: true }); writeFileSync(credential, 'private-test-value')
   installPayload(target, payload, metadata, {}, context)
-  assert.equal(JSON.parse(readFileSync(join(target.profile, 'package.json'))).dependencies['@deepseek-harness-tui/dsh-tui'], '0.14.0')
+  assert.equal(JSON.parse(readFileSync(join(target.profile, 'package.json'))).dependencies['@plintash/dsh-tui'], '0.14.0')
   assert.ok(existsSync(join(target.prefix, 'dsh-tui.cmd')))
   assert.match(readFileSync(join(target.profile, 'pnpm-workspace.yaml'), 'utf8'), /nodeLinker: hoisted\nautoInstallPeers: false/)
   assert.equal(existsSync(target.stage), false)
@@ -449,14 +449,14 @@ test('archive install skips retained kernel, Node and pnpm trees', { skip: proce
   assert.equal(readFileSync(join(kernel, 'package.json'), 'utf8'), manifest)
   assert.equal(readFileSync(join(target.prefix, 'pnpm.cmd'), 'utf8'), 'existing pnpm')
   assert.equal(existsSync(join(target.prefix, 'node.exe')), false)
-  assert.ok(existsSync(join(target.profile, 'node_modules/@deepseek-harness-tui/dsh-tui/bin.js')))
-  assert.equal(readFileSync(join(target.profile, 'node_modules/@deepseek-harness-tui/dsh-tui/runtime/node/index.js'), 'utf8'), 'nested node entry')
+  assert.ok(existsSync(join(target.profile, 'node_modules/@plintash/dsh-tui/bin.js')))
+  assert.equal(readFileSync(join(target.profile, 'node_modules/@plintash/dsh-tui/runtime/node/index.js'), 'utf8'), 'nested node entry')
   assert.equal(existsSync(target.stage), false)
 })
 
 test('archive install rejects a corrupt selected component before replacing packages', { skip: process.platform !== 'win32' }, () => {
   const { target, payload, metadata, context } = installationFixture()
-  writeFileSync(join(payload, 'global/node_modules/@deepseek-harness-tui/dsh-tui/bin.js'), 'corrupt')
+  writeFileSync(join(payload, 'global/node_modules/@plintash/dsh-tui/bin.js'), 'corrupt')
   execFileSync(join(process.env.SystemRoot, 'System32/tar.exe'), ['-cf', join(target.stage, 'payload.tar'), '-C', payload, '.'])
   assert.throws(() => installPayload(target, join(target.stage, 'payload'), metadata, { extract: true }, context), /checksum mismatch/)
   assert.equal(existsSync(join(target.prefix, 'node_modules')), false)
@@ -494,7 +494,7 @@ test('verified archives install with independent profile files and reject incomp
       assert.equal(existsSync(join(target.prefix, 'node_modules')), false)
     } else {
       install()
-      const file = 'node_modules/@deepseek-harness-tui/dsh-tui/bin.js'
+      const file = 'node_modules/@plintash/dsh-tui/bin.js'
       writeFileSync(join(target.profile, file), 'local profile update')
       assert.equal(readFileSync(join(target.prefix, file), 'utf8'), '#!/usr/bin/env node\n')
       assert.equal(existsSync(target.stage), false)
@@ -536,9 +536,9 @@ function indexedFixture() {
   const fixture = installationFixture()
   const { payload, metadata, target } = fixture
   // Exercise more than one worker, zero-byte files and reads over chunk boundaries.
-  const extras = { 'global/node_modules/@deepseek-harness-tui/dsh-tui/large.bin': Buffer.alloc(1024 * 1024 + 37, 0x6b), 'global/empty': Buffer.alloc(0) }
-  extras[`global/node_modules/@deepseek-harness-tui/dsh-tui/${'long path 中文 😀 '.repeat(5).trimEnd()}/${'nested '.repeat(12).trimEnd()}/文件 😀.js`] = Buffer.from('unicode and long paths')
-  for (let index = 0; index < 300; index++) extras[`global/node_modules/@deepseek-harness-tui/dsh-tui/nested/${index}.js`] = Buffer.from(String(index))
+  const extras = { 'global/node_modules/@plintash/dsh-tui/large.bin': Buffer.alloc(1024 * 1024 + 37, 0x6b), 'global/empty': Buffer.alloc(0) }
+  extras[`global/node_modules/@plintash/dsh-tui/${'long path 中文 😀 '.repeat(5).trimEnd()}/${'nested '.repeat(12).trimEnd()}/文件 😀.js`] = Buffer.from('unicode and long paths')
+  for (let index = 0; index < 300; index++) extras[`global/node_modules/@plintash/dsh-tui/nested/${index}.js`] = Buffer.from(String(index))
   for (const [name, bytes] of Object.entries(extras)) {
     const file = join(payload, name); mkdirSync(join(file, '..'), { recursive: true }); writeFileSync(file, bytes)
     metadata.files[name] = createHash('sha256').update(bytes).digest('hex')
@@ -551,12 +551,12 @@ function indexedFixture() {
 test('indexed components install every byte and make an independent profile in the same extraction', () => {
   const { target, metadata, context } = indexedFixture()
   installPayload(target, join(target.stage, 'payload'), metadata, { extract: true }, context)
-  const prefix = 'global/node_modules/@deepseek-harness-tui/dsh-tui/'
+  const prefix = 'global/node_modules/@plintash/dsh-tui/'
   for (const [name, hash] of Object.entries(metadata.files)) {
     if (!name.startsWith(prefix)) continue
-    for (const root of [target.prefix, target.profile]) assert.equal(sha256File(join(root, 'node_modules/@deepseek-harness-tui/dsh-tui', name.slice(prefix.length))), hash, name)
+    for (const root of [target.prefix, target.profile]) assert.equal(sha256File(join(root, 'node_modules/@plintash/dsh-tui', name.slice(prefix.length))), hash, name)
   }
-  const file = 'node_modules/@deepseek-harness-tui/dsh-tui/bin.js'
+  const file = 'node_modules/@plintash/dsh-tui/bin.js'
   writeFileSync(join(target.profile, file), 'profile update')
   assert.equal(readFileSync(join(target.prefix, file), 'utf8'), '#!/usr/bin/env node\n')
   assert.equal(existsSync(target.stage), false)
@@ -699,7 +699,7 @@ test('full uninstall requires confirmation for other profiles and never removes 
   uninstallPackages(target, metadata, true, true, context)
   assert.equal(existsSync(join(target.prefix, 'dsh.cmd')), false)
   assert.equal(readFileSync(otherProfile, 'utf8'), '{"name":"web"}')
-  assert.ok(existsSync(join(target.profile, 'node_modules/@deepseek-harness-tui/dsh-tui/package.json')))
+  assert.ok(existsSync(join(target.profile, 'node_modules/@plintash/dsh-tui/package.json')))
 })
 
 test('hoisted peers move with the kernel and remain resolvable from its dependencies', async () => {
@@ -735,7 +735,7 @@ test('runtime packages omit declarations and source maps but keep executable sou
 })
 
 test('downgrade rejection leaves installed bytes untouched', () => {
-  for (const name of ['@deepseek-ai/dsh', '@deepseek-harness-tui/dsh-tui']) {
+  for (const name of ['@deepseek-ai/dsh', '@plintash/dsh-tui']) {
     const { target, payload, metadata, context } = installationFixture()
     const file = join(target.prefix, 'node_modules', name, 'package.json')
     mkdirSync(join(file, '..'), { recursive: true })
@@ -751,7 +751,7 @@ for (const indexed of [false, true]) test(`registration failure restores files, 
   const { target, payload, metadata, context } = indexed ? indexedFixture() : installationFixture()
   const oldFiles = [
     ['node_modules/@deepseek-ai/dsh/package.json', target.prefix, '{"name":"@deepseek-ai/dsh","version":"0.1.5-rc.1"}'],
-    ['node_modules/@deepseek-harness-tui/dsh-tui/package.json', target.profile, '{"name":"@deepseek-harness-tui/dsh-tui","version":"0.13.0"}'],
+    ['node_modules/@plintash/dsh-tui/package.json', target.profile, '{"name":"@plintash/dsh-tui","version":"0.13.0"}'],
     ['package.json', target.profile, '{"name":"existing-profile","dependencies":{"custom":"1"}}'],
     ['cordis.patch.yml', target.profile, 'user patch'],
   ]

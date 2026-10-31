@@ -5,7 +5,7 @@
  * without touching the credential file or the pi-ai flow objects; the `/auth`
  * command in `command.ts` is a thin textual veneer over the same api.
  *
- * @module @deepseek-harness-tui/dsh-tui/oauth/service
+ * @module @plintash/dsh-tui/oauth/service
  */
 
 import { Service } from '@deepseek-ai/cordis'

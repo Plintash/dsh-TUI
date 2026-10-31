@@ -11,7 +11,7 @@
  * Every path is best-effort and never throws: a missing opener or clipboard
  * degrades to the URL staying on screen with a copy action.
  *
- * @module @deepseek-harness-tui/dsh-tui/oauth/opener
+ * @module @plintash/dsh-tui/oauth/opener
  */
 
 import { spawn } from 'node:child_process'

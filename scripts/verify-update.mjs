@@ -161,7 +161,7 @@ try {
   // ../../package.json lands above the root (missing) → ../package.json hits.
   const sourceRoot = join(scratch, 'source')
   copyUpdateModule(join(sourceRoot, 'src'))
-  writeFileSync(join(sourceRoot, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '1.2.3', type: 'module' }))
+  writeFileSync(join(sourceRoot, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '1.2.3', type: 'module' }))
   const sourceMod = await import(`${pathToFileURL(join(sourceRoot, 'src', 'update.js'))}?probe=1`)
   check(
     'installedTuiVersion reads the source-checkout layout',
@@ -173,7 +173,7 @@ try {
   // manifest must win over a nearer foreign one.
   const pkgRoot = join(scratch, 'pkg')
   copyUpdateModule(join(pkgRoot, 'lib', 'types'))
-  writeFileSync(join(pkgRoot, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '0.9.9', type: 'module' }))
+  writeFileSync(join(pkgRoot, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '0.9.9', type: 'module' }))
   writeFileSync(join(pkgRoot, 'lib', 'package.json'), JSON.stringify({ name: 'other-pkg', version: '9.9.9' }))
   const pkgMod = await import(`${pathToFileURL(join(pkgRoot, 'lib', 'types', 'update.js'))}?probe=2`)
   check(
@@ -197,7 +197,7 @@ try {
   // Launcher migration must work from both published and source layouts.
   const oldRoot = join(scratch, 'old-global')
   mkdirSync(join(oldRoot, 'bin'), { recursive: true })
-  const oldManifest = JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '0.1.0' })
+  const oldManifest = JSON.stringify({ name: '@plintash/dsh-tui', version: '0.1.0' })
   const oldBin = '#!/usr/bin/env node\n// old launcher\n'
   const savedArgv1 = process.argv[1]
   const resetGlobal = () => {
@@ -364,7 +364,7 @@ const exactUpdateArgs = tuiUpdatePluginArgs('dsh-tui', '0.7.2')
 check(
   'update command pins the preflight target version',
   JSON.stringify(exactUpdateArgs) === JSON.stringify([
-    'plugin', '--profile', 'dsh-tui', 'update', '@deepseek-harness-tui/dsh-tui@0.7.2',
+    'plugin', '--profile', 'dsh-tui', 'update', '@plintash/dsh-tui@0.7.2',
   ]),
   `got ${JSON.stringify(exactUpdateArgs)}`,
 )
@@ -372,7 +372,7 @@ const fallbackUpdateArgs = tuiUpdatePluginArgs('custom-profile')
 check(
   'update command falls back to --latest when preflight failed',
   JSON.stringify(fallbackUpdateArgs) === JSON.stringify([
-    'plugin', '--profile', 'custom-profile', 'update', '--latest', '@deepseek-harness-tui/dsh-tui',
+    'plugin', '--profile', 'custom-profile', 'update', '--latest', '@plintash/dsh-tui',
   ]),
   `got ${JSON.stringify(fallbackUpdateArgs)}`,
 )
@@ -485,14 +485,14 @@ check(
       'releaseAge: missing file is created with the exact entry',
       outcome !== undefined && outcome.changed === true &&
         outcome.entries.length === 1 &&
-        outcome.entries[0] === '@deepseek-harness-tui/dsh-tui@0.10.0-beta.1' &&
+        outcome.entries[0] === '@plintash/dsh-tui@0.10.0-beta.1' &&
         existsSync(yamlPath),
       JSON.stringify(outcome),
     )
     let text = readFileSync(yamlPath, 'utf8')
     check(
       'releaseAge: file carries the quoted list entry',
-      /minimumReleaseAgeExclude:\n  - '@deepseek-harness-tui\/dsh-tui@0\.10\.0-beta\.1'\n/u.test(text),
+      /minimumReleaseAgeExclude:\n  - '@plintash\/dsh-tui@0\.10\.0-beta\.1'\n/u.test(text),
       text,
     )
 
@@ -507,14 +507,14 @@ check(
 
     // Case 3: without a second exemption a stale own entry is replaced (no
     // accumulation) while foreign entries survive.
-    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.9.3'\n")
+    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.9.3'\n")
     outcome = ensureProfileReleaseAgeExclude('tui', '0.10.0-beta.1')
     text = readFileSync(yamlPath, 'utf8')
     check(
       'releaseAge: stale own entry replaced, foreign entry kept',
       outcome !== undefined && outcome.changed === true &&
         text.includes("- 'x@1.0.0'") &&
-        text.includes("- '@deepseek-harness-tui/dsh-tui@0.10.0-beta.1'") &&
+        text.includes("- '@plintash/dsh-tui@0.10.0-beta.1'") &&
         !text.includes('0.9.3'),
       `${JSON.stringify(outcome)} :: ${text}`,
     )
@@ -522,14 +522,14 @@ check(
     // Case 3b: the same version is KEPT when it is the second exemption
     // (alsoExempt) — the locked version still inside the release-age window —
     // joined to the target in one union entry.
-    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.9.3'\n")
+    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.9.3'\n")
     outcome = ensureProfileReleaseAgeExclude('tui', '0.10.0-beta.1', '0.9.3')
     text = readFileSync(yamlPath, 'utf8')
     check(
       'releaseAge: alsoExempt keeps the locked version alongside the target',
       outcome !== undefined && outcome.changed === true &&
-        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.10.0-beta.1 || 0.9.3'\n") &&
-        (text.match(/@deepseek-harness-tui\/dsh-tui@/g) ?? []).length === 1,
+        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.10.0-beta.1 || 0.9.3'\n") &&
+        (text.match(/@plintash\/dsh-tui@/g) ?? []).length === 1,
       `${JSON.stringify(outcome)} :: ${text}`,
     )
 
@@ -543,13 +543,13 @@ check(
     )
 
     // Case 3d: alsoExempt equal to the target (or empty) adds nothing twice.
-    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - '@deepseek-harness-tui/dsh-tui@0.10.0-beta.1'\n")
+    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - '@plintash/dsh-tui@0.10.0-beta.1'\n")
     outcome = ensureProfileReleaseAgeExclude('tui', '0.10.0-beta.1', '0.10.0-beta.1')
     text = readFileSync(yamlPath, 'utf8')
     check(
       'releaseAge: alsoExempt === version keeps a single entry',
       outcome !== undefined && outcome.changed === false &&
-        (text.match(/@deepseek-harness-tui\/dsh-tui@0\.10\.0-beta\.1/g) ?? []).length === 1,
+        (text.match(/@plintash\/dsh-tui@0\.10\.0-beta\.1/g) ?? []).length === 1,
       `${JSON.stringify(outcome)} :: ${text}`,
     )
     outcome = ensureProfileReleaseAgeExclude('tui', '0.10.0-beta.1', '')
@@ -564,15 +564,15 @@ check(
     // pnpm verifies before the swap installs too. One union entry, not two:
     // pnpm 11.5.x–11.7.x honour only the first entry per package, so a
     // second entry for the locked version is ignored there (issue #1605).
-    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.11.2'\n")
+    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.11.2'\n")
     outcome = ensureProfileReleaseAgeExclude('tui', '0.12.0', '0.11.2')
     text = readFileSync(yamlPath, 'utf8')
     check(
       'releaseAge: same-day double release exempts locked + target in one entry (#1205, #1605)',
       outcome !== undefined && outcome.changed === true &&
-        JSON.stringify(outcome.entries) === JSON.stringify(['x@1.0.0', '@deepseek-harness-tui/dsh-tui@0.12.0 || 0.11.2']) &&
-        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.12.0 || 0.11.2'\n") &&
-        (text.match(/@deepseek-harness-tui\/dsh-tui@/g) ?? []).length === 1,
+        JSON.stringify(outcome.entries) === JSON.stringify(['x@1.0.0', '@plintash/dsh-tui@0.12.0 || 0.11.2']) &&
+        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.12.0 || 0.11.2'\n") &&
+        (text.match(/@plintash\/dsh-tui@/g) ?? []).length === 1,
       `${JSON.stringify(outcome)} :: ${text}`,
     )
     const doubleBefore = readFileSync(yamlPath, 'utf8')
@@ -590,21 +590,21 @@ check(
     check(
       'releaseAge: older own entry dropped once no longer needed',
       outcome !== undefined && outcome.changed === true &&
-        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.13.0 || 0.12.0'\n") &&
-        (text.match(/@deepseek-harness-tui\/dsh-tui@/g) ?? []).length === 1,
+        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.13.0 || 0.12.0'\n") &&
+        (text.match(/@plintash\/dsh-tui@/g) ?? []).length === 1,
       `${JSON.stringify(outcome)} :: ${text}`,
     )
 
     // Case 3g: the pre-#1605 two-entry pair collapses into the union, which
     // pnpm 11.5.x–11.7.x read whole.
-    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - '@deepseek-harness-tui/dsh-tui@0.16.1'\n  - '@deepseek-harness-tui/dsh-tui@0.16.0'\n  - 'x@1.0.0'\n")
+    writeFileSync(yamlPath, "minimumReleaseAgeExclude:\n  - '@plintash/dsh-tui@0.16.1'\n  - '@plintash/dsh-tui@0.16.0'\n  - 'x@1.0.0'\n")
     outcome = ensureProfileReleaseAgeExclude('tui', '0.16.1', '0.16.0')
     text = readFileSync(yamlPath, 'utf8')
     check(
       'releaseAge: legacy two-entry pair rewritten as one union entry (#1605)',
       outcome !== undefined && outcome.changed === true &&
-        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@deepseek-harness-tui/dsh-tui@0.16.1 || 0.16.0'\n") &&
-        (text.match(/@deepseek-harness-tui\/dsh-tui@/g) ?? []).length === 1,
+        text.includes("minimumReleaseAgeExclude:\n  - 'x@1.0.0'\n  - '@plintash/dsh-tui@0.16.1 || 0.16.0'\n") &&
+        (text.match(/@plintash\/dsh-tui@/g) ?? []).length === 1,
       `${JSON.stringify(outcome)} :: ${text}`,
     )
 
@@ -616,7 +616,7 @@ check(
       'releaseAge: block appended, existing keys preserved',
       outcome !== undefined && outcome.changed === true &&
         text.startsWith('packages:\n  - .\n\nnodeLinker: hoisted\n') &&
-        text.includes("minimumReleaseAgeExclude:\n  - '@deepseek-harness-tui/dsh-tui@1.2.3'\n"),
+        text.includes("minimumReleaseAgeExclude:\n  - '@plintash/dsh-tui@1.2.3'\n"),
       text,
     )
 
@@ -730,8 +730,8 @@ check(
 // ---- isEexistTmpRenameFailure: the deterministic Linux flavor (issue #479)
 const eexistSample =
   "ERR_PNPM_EEXIST  EEXIST: file already exists, rename " +
-  "'/root/.dsh/profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui/node_modules' " +
-  "-> '/root/.dsh/profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui_tmp_2424672_1/node_modules'"
+  "'/root/.dsh/profiles/dsh-tui/node_modules/@plintash/dsh-tui/node_modules' " +
+  "-> '/root/.dsh/profiles/dsh-tui/node_modules/@plintash/dsh-tui_tmp_2424672_1/node_modules'"
 check(
   'eexist: pnpm tmp-rename EEXIST qualifies (#479 verbatim stderr)',
   isEexistTmpRenameFailure(eexistSample),
@@ -757,13 +757,13 @@ try {
   process.env.DSH_HOME = sandboxRoot
   check(
     'profilePackageDir: DSH_HOME root wins',
-    profilePackageDir('dsh-tui') === join(sandboxRoot, 'profiles', 'dsh-tui', 'node_modules', '@deepseek-harness-tui', 'dsh-tui'),
+    profilePackageDir('dsh-tui') === join(sandboxRoot, 'profiles', 'dsh-tui', 'node_modules', '@plintash', 'dsh-tui'),
     `got ${profilePackageDir('dsh-tui')}`,
   )
   delete process.env.DSH_HOME
   check(
     'profilePackageDir: defaults to ~/.dsh',
-    profilePackageDir('custom') === join(homedir(), '.dsh', 'profiles', 'custom', 'node_modules', '@deepseek-harness-tui', 'dsh-tui'),
+    profilePackageDir('custom') === join(homedir(), '.dsh', 'profiles', 'custom', 'node_modules', '@plintash', 'dsh-tui'),
     `got ${profilePackageDir('custom')}`,
   )
   process.env.DSH_HOME = sandboxRoot
@@ -878,7 +878,7 @@ check(
     symlinkSync(join(repoRoot, 'node_modules'), join(scratch3, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir')
     const pkgRoot = join(scratch3, 'pkg')
     copyUpdateModule(join(pkgRoot, 'lib', 'types'))
-    writeFileSync(join(pkgRoot, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '2.0.0', type: 'module' }))
+    writeFileSync(join(pkgRoot, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '2.0.0', type: 'module' }))
     const stubDir = join(scratch3, 'stub-bin')
     mkdirSync(stubDir, { recursive: true })
     writeFileSync(join(stubDir, 'dsh'), '#!/bin/sh\nexit 0\n')

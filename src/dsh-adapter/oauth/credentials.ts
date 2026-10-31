@@ -11,7 +11,7 @@
  * nothing here ever logs token material, and {@link CredentialFile.describe}
  * reports only non-secret metadata for status surfaces.
  *
- * @module @deepseek-harness-tui/dsh-tui/oauth/credentials
+ * @module @plintash/dsh-tui/oauth/credentials
  */
 
 import { randomUUID } from 'node:crypto'

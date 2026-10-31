@@ -23,7 +23,7 @@
  * file simply means "not done yet". The worst outcome of a broken pref file
  * is one extra wizard — recoverable with a single Esc.
  *
- * @module @deepseek-harness-tui/dsh-tui/onboardingPrefs
+ * @module @plintash/dsh-tui/onboardingPrefs
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'

@@ -34,7 +34,7 @@ try {
   delete process.env.DSH_TUI_STANDALONE_BINARY
   symlinkSync(join(repo, 'node_modules'), join(pkg, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir')
   const manifest = join(pkg, 'package.json')
-  const writeVersion = version => writeFileSync(manifest, JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version, type: 'module' }))
+  const writeVersion = version => writeFileSync(manifest, JSON.stringify({ name: '@plintash/dsh-tui', version, type: 'module' }))
   writeVersion('1.2.3')
 
   // Transpile the actual dependency closure without changing generated lib/.
@@ -194,7 +194,7 @@ export function readFileSync(...args) {
       mkdirSync(join(pkg, 'bin'), { recursive: true })
       writeFileSync(join(pkg, 'bin', 'dsh-tui.js'), 'new launcher')
       writeFileSync(launcher, 'old launcher')
-      writeFileSync(join(launcherDir, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '1.0.0' }))
+      writeFileSync(join(launcherDir, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '1.0.0' }))
       process.argv[1] = launcher
       if (stage === 'after launcher migration' || stage === 'before restart') stderrHook = text => {
         if (!text.includes('global launcher aligned')) return

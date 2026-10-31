@@ -12,7 +12,7 @@
  * lazy `[\s\S]*?` regex, whose per-unclosed-tag rescans a hostile single
  * line can turn quadratic (deep-review m1 on the first claude adapter).
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/parse/injection
+ * @module @plintash/dsh-tui/migrate/parse/injection
  */
 
 /**

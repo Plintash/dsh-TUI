@@ -116,7 +116,7 @@ const snapshot = dir => {
 {
   const r = run(['doctor'])
   const expected = [
-    `dsh-tui doctor · @deepseek-harness-tui/dsh-tui ${ownVersion}`,
+    `dsh-tui doctor · @plintash/dsh-tui ${ownVersion}`,
     `✓ node: ${process.version} · ${process.platform} ${process.arch}`,
     `✗ dsh: 未找到——请先安装：  npm install -g @deepseek-ai/dsh`,
     `✗ pnpm: 未找到——安装/升级需要它：  npm install -g pnpm`,
@@ -342,9 +342,9 @@ git commit -m "refactor(launcher): settle dsh sessions through a result model (b
   chmodSync(join(stubDir, 'dsh'), 0o755)
   // profile 已装且与启动器同版：版本核对不产生额外输出，stderr 断言干净。
   const profHome = join(tmp, 'fb-home')
-  const pkgDir = join(profHome, 'profiles', 'dsh-tui', 'node_modules', '@deepseek-harness-tui', 'dsh-tui')
+  const pkgDir = join(profHome, 'profiles', 'dsh-tui', 'node_modules', '@plintash', 'dsh-tui')
   mkdirSync(pkgDir, { recursive: true })
-  writeFileSync(join(pkgDir, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: ownVersion }))
+  writeFileSync(join(pkgDir, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: ownVersion }))
   const runFb = (env = {}) => run([], { PATH: stubDir, DSH_HOME: profHome, ...env })
   {
     const r = runFb()
@@ -518,8 +518,8 @@ git commit -m "feat(launcher): offer safe mode after unexpected dsh exits (non-T
     mkdirSync(profDir, { recursive: true })
     writeFileSync(join(profDir, 'package.json'), JSON.stringify({
       name: 'dsh-profile-dsh-tui',
-      dependencies: { '@deepseek-harness-tui/dsh-tui': '1.0.0', '@deepseek-ai/dsh-base': '1.0.0', 'cool-plugin': '0.1.0' },
-      dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', '@deepseek-harness-tui/dsh-tui'] } },
+      dependencies: { '@plintash/dsh-tui': '1.0.0', '@deepseek-ai/dsh-base': '1.0.0', 'cool-plugin': '0.1.0' },
+      dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', '@plintash/dsh-tui'] } },
     }))
     const r = run(['safe'], { DSH_HOME: invHome })
     check('清单: bundles 与 dependencies 两维度分列', r.stdout.includes('组合层') && r.stdout.includes('直接依赖'))
@@ -875,7 +875,7 @@ git commit -m "feat(launcher): interactive safe menu with replay retry and termi
 
 - [ ] **Step 2: README 双语小节**
 
-`README.md` 与 `README_EN.md` 在既有命令/故障排查章节附近加入对等小节（双语语义等价，对照 `verify-launcher.mjs` 双语断言的严谨度自查）。内容要点：双入口（`dsh-tui safe` 手动；异常退出后自动询问——仅交互终端，脚本/管道环境只追加一行提示且退出码保真）；控制面只读边界与"重试正常启动"例外（重试不自举，profile 不完整时给出重装指引）；覆盖边界=最终 dsh 子进程的非零退出码，不含启动挂起；旧全局启动器场景（profile 副本不可读/过旧时先升级启动器：`npm install -g --legacy-peer-deps @deepseek-harness-tui/dsh-tui@<版本>`）；修复命令示例（remove 第三方插件 / add 重装 / doctor）。
+`README.md` 与 `README_EN.md` 在既有命令/故障排查章节附近加入对等小节（双语语义等价，对照 `verify-launcher.mjs` 双语断言的严谨度自查）。内容要点：双入口（`dsh-tui safe` 手动；异常退出后自动询问——仅交互终端，脚本/管道环境只追加一行提示且退出码保真）；控制面只读边界与"重试正常启动"例外（重试不自举，profile 不完整时给出重装指引）；覆盖边界=最终 dsh 子进程的非零退出码，不含启动挂起；旧全局启动器场景（profile 副本不可读/过旧时先升级启动器：`npm install -g --legacy-peer-deps @plintash/dsh-tui@<版本>`）；修复命令示例（remove 第三方插件 / add 重装 / doctor）。
 
 - [ ] **Step 3: CI 登记**
 

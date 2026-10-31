@@ -271,28 +271,28 @@
     # Generic terminal workspace registry. Optional plugins add providers;
     # the TUI itself always supplies LOCAL and has no provider-specific code.
     - id: dsh-tui-workspaces
-      name: '@deepseek-harness-tui/dsh-tui/workspaces'
+      name: '@plintash/dsh-tui/workspaces'
 
     # Optional plugins contribute nested slash-command completion here;
     # execution and durable command events remain owned by dsh-commands.
     - id: dsh-tui-command-trees
-      name: '@deepseek-harness-tui/dsh-tui/command-trees'
+      name: '@plintash/dsh-tui/command-trees'
     # Optional plugins declare editable settings sections here (issue #165);
     # storage, validation and writes remain owned by the dsh settings service.
     - id: dsh-tui-settings-sections
-      name: '@deepseek-harness-tui/dsh-tui/settings-sections'
+      name: '@plintash/dsh-tui/settings-sections'
 
     # Optional plugins register full-screen scenes (trajectory-style whole-
     # terminal views) here and open them from their own command handlers;
     # rendering and input ownership remain owned by the TUI's Chat screen.
     - id: dsh-tui-scenes
-      name: '@deepseek-harness-tui/dsh-tui/scenes'
+      name: '@plintash/dsh-tui/scenes'
 
     # Optional plugins register side-panel surfaces (sidebar Panel +
     # compact row, experimental §18) here; admission, budgets and crash
     # isolation remain owned by the tuiPanels runtime + PanelStore.
     - id: dsh-tui-panels
-      name: '@deepseek-harness-tui/dsh-tui/panels'
+      name: '@plintash/dsh-tui/panels'
 
     # Plugin-interop anchor (Community Consensus v0.15): the unified grant
     # store, runtime generation id, and Host Descriptor live here; later
@@ -301,7 +301,7 @@
     # once for the whole alignment. Mounted ahead of the extensions row and
     # any third-party plugin row.
     - id: dsh-tui-plugin-host
-      name: '@deepseek-harness-tui/dsh-tui/plugin-host'
+      name: '@plintash/dsh-tui/plugin-host'
 
     # Plugin-facing UI seams (the pi-style extension surface): managed
     # dialogs (select/confirm/input), keyed status-line contributions,
@@ -310,7 +310,7 @@
     # tui/compact, …) are fired by the channel on the cordis bus directly
     # and need no row.
     - id: dsh-tui-extensions
-      name: '@deepseek-harness-tui/dsh-tui/extensions'
+      name: '@plintash/dsh-tui/extensions'
 
     # The agent-preset roster (issue #8): `ctx.agentPresets`, the service the
     # TUI composes every session's model-facing world from. 0.1.2 packages
@@ -396,7 +396,7 @@
     # the internal module's own inject is empty so a stale patch cannot
     # deadlock a composition lacking these services (#183 pattern).
     - id: dsh-tui-auth
-      name: '@deepseek-harness-tui/dsh-tui/oauth'
+      name: '@plintash/dsh-tui/oauth'
       inject: [llm, commands]
 
     # The interactive front door. The plugin creates/resumes its agent at
@@ -405,7 +405,7 @@
     # feeds the session id through DSH_TUI_RESUME_SESSION (see
     # src/sessionHistory.ts for the launcher contract).
     - id: dsh-tui
-      name: '@deepseek-harness-tui/dsh-tui'
+      name: '@plintash/dsh-tui'
       # The entry-level dependency augments the plugin's `agents` inject and
       # prevents startup Session creation from racing WorkspaceRegistry init.
       inject: [workspaceRegistry, agents, tuiWorkspaces, tuiScenes, tuiPanels, tuiDialogs, tuiStatus, tuiShortcuts, tuiRenderers, tuiThemes]
@@ -479,7 +479,7 @@
         backend: !!js process.env.DSH_TUI_BACKEND || undefined
 
     # Live working-line data source (thinking copy / running tool / turn
-    # summary). Mounted through @deepseek-harness-tui/dsh-tui's own
+    # summary). Mounted through @plintash/dsh-tui's own
     # `./working-activity` re-export, NOT the bare `dsh-working-activity`
     # name: the dsh Loader resolves row names from the profile directory,
     # and pnpm's isolated node_modules layout never links a transitive
@@ -491,7 +491,7 @@
     # TUI's working line comes from; never persist activity/status, so the
     # shared log remains Web-readable.
     - id: working-activity
-      name: '@deepseek-harness-tui/dsh-tui/working-activity'
+      name: '@plintash/dsh-tui/working-activity'
       config:
         publish: false
         publishIntervalMs: 500

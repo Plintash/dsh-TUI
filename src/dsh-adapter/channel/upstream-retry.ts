@@ -20,7 +20,7 @@
  * recursively over the composition base, so a route configured through
  * the profile patch is reached with all its other fields intact.
  *
- * @module @deepseek-harness-tui/dsh-tui/channel/upstream-retry
+ * @module @plintash/dsh-tui/channel/upstream-retry
  */
 
 import type { Context } from '@deepseek-ai/cordis'

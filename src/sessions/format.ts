@@ -5,7 +5,7 @@
  * about a terminal's width and a reader's eye, not about what a session log
  * means.
  *
- * @module @deepseek-harness-tui/dsh-tui/sessions/format
+ * @module @plintash/dsh-tui/sessions/format
  */
 import { isAbsolute, relative as pathRelative } from 'node:path'
 import { sessionWorkingDirectory } from '../channel/working-directory.js'

@@ -4,6 +4,6 @@
  * remain compatible after the former dsh-auth package was folded into the
  * TUI's adapter tree.
  *
- * @module @deepseek-harness-tui/dsh-tui/oauth
+ * @module @plintash/dsh-tui/oauth
  */
 export * from './dsh-adapter/oauth/index.js'

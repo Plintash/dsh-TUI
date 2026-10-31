@@ -5,7 +5,7 @@
  * parser run over the file's head, plus a tail window for the /rename title
  * (renames append, the last one wins).
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/claude-code
+ * @module @plintash/dsh-tui/migrate/adapters/claude-code
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'

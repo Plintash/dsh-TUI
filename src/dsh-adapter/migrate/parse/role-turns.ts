@@ -7,7 +7,7 @@
  * after it is one step — so an adapter that still produces the list imports
  * exactly as it did before the turn model existed.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/parse/role-turns
+ * @module @plintash/dsh-tui/migrate/parse/role-turns
  */
 import type { ImportBlock, ImportStats, ImportTurn, MigrationSession, MigrationTurn } from '../types.js'
 import { newStep } from './tools.js'

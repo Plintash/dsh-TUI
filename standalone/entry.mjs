@@ -70,7 +70,7 @@ const cacheBase = resolve(
 )
 const runtimeRoot = join(cacheBase, BUNDLE_ID)
 const dshBin = join(runtimeRoot, 'node_modules', '@deepseek-ai', 'dsh', 'lib', 'bin.js')
-const tuiRoot = join(runtimeRoot, 'node_modules', '@deepseek-harness-tui', 'dsh-tui')
+const tuiRoot = join(runtimeRoot, 'node_modules', '@plintash', 'dsh-tui')
 
 /**
  * Ensure the bundled runtime archive is unpacked into the cache directory.
@@ -85,9 +85,9 @@ async function ensureRuntimeReady() {
     extract: extractTar,
     requiredPaths: [
       'node_modules/@deepseek-ai/dsh/lib/bin.js',
-      'node_modules/@deepseek-harness-tui/dsh-tui/cordis.patch.yml',
-      'node_modules/@deepseek-harness-tui/dsh-tui/cli/entry.mjs',
-      'node_modules/@deepseek-harness-tui/dsh-tui/cli/adapters/dsh/management-plugin.mjs',
+      'node_modules/@plintash/dsh-tui/cordis.patch.yml',
+      'node_modules/@plintash/dsh-tui/cli/entry.mjs',
+      'node_modules/@plintash/dsh-tui/cli/adapters/dsh/management-plugin.mjs',
     ],
     log: text => process.stderr.write(text),
   })
@@ -129,7 +129,7 @@ function ensureProfile() {
       name: 'dsh-profile-dsh-tui-standalone',
       private: true,
       dependencies: {
-        '@deepseek-harness-tui/dsh-tui': TUI_VERSION,
+        '@plintash/dsh-tui': TUI_VERSION,
       },
       dsh: {
         profile: {

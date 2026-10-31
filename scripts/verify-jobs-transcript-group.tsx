@@ -541,7 +541,7 @@ console.log('--- G15: the jobs panel wraps long command/output lines ---')
   const CMD_TAIL = 'CMD-TAIL-MARKER'
   const ERR_TAIL = 'STDERR-TAIL-MARKER'
   const LABEL_TAIL = 'LABEL-TAIL-MARKER'
-  const longCommand = 'pnpm --filter @deepseek-harness-tui/dsh-tui run ' + 'build:everything --with-flags '.repeat(4) + CMD_TAIL
+  const longCommand = 'pnpm --filter @plintash/dsh-tui run ' + 'build:everything --with-flags '.repeat(4) + CMD_TAIL
   const panelJob = {
     ...makeJob('pwsh-9', 'running'),
     label: 'deploy --stack ' + 'service-name '.repeat(8) + LABEL_TAIL,

@@ -16,7 +16,7 @@ after(() => rm(temporary, { recursive: true, force: true, maxRetries: 3 }))
 
 test('standalone extracts and runs the same CLI without initializing its TUI profile', async () => {
   const source = join(temporary, 'archive')
-  const tui = join(source, 'node_modules/@deepseek-harness-tui/dsh-tui')
+  const tui = join(source, 'node_modules/@plintash/dsh-tui')
   const host = join(source, 'node_modules/@deepseek-ai/dsh')
   await mkdir(tui, { recursive: true })
   await mkdir(join(host, 'lib'), { recursive: true })

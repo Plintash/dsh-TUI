@@ -45,8 +45,8 @@
   `build,ci;git;pet` 三组即三槽，**列进名单的字段跟随所在组**（覆盖插件声明的槽）。
   用户把名单固定后，之后新注册的字段默认不出现，直到用户勾选。契约、规则表与
   示例见[准入与开发指南](../tui-profile/docs/plugin-admission-and-development.md)接缝十一「底栏字段」。
-- `@deepseek-harness-tui/dsh-tui/api`（纯类型入口）为实验性公开面。
-- **preset 内的行（实验性，接缝七）**：bundle 用 `@deepseek-harness-tui/dsh-tui/preset-patch`
+- `@plintash/dsh-tui/api`（纯类型入口）为实验性公开面。
+- **preset 内的行（实验性，接缝七）**：bundle 用 `@plintash/dsh-tui/preset-patch`
   行改 dsh-TUI 注册的 preset 里某一行的 `config`（例如关掉 `standard` 的
   `compaction-basic` 自动压缩），写法见[准入与开发指南](../tui-profile/docs/plugin-admission-and-development.md)接缝七。
 - **侧栏 Panel（实验性，§18）**：`ctx.tuiPanels.register({ apiVersion: 1,
@@ -56,7 +56,7 @@
   （`compact`，1–3 行紧凑呈现）两个渲染槽中，**本阶段 compact 仅校验
   descriptor、尚不挂载渲染**；`sendToChat` 需要 `panels.chat.attach`
   授权（后续版本），当前恒返回 `false` 并提示一次。类型见
-  `@deepseek-harness-tui/dsh-tui/panels` 与 `./api`。
+  `@plintash/dsh-tui/panels` 与 `./api`。
   面板正文可用 `ui.Markdown` / `ui.CodeBlock`（实验性，收窄包装）：前者收一段
   markdown 字符串，后者收原始代码与可选语言标签（围栏长度、语言标签清洗与
   语法高亮由宿主负责）。`ui.Markdown` 与聊天正文同一口径：宿主会先剥离
@@ -68,7 +68,7 @@
   偏好**（终端支持图形时走图片），行内公式不走图片、仍排成 Unicode；④ 正文
   内容**保持不变**才能命中 `React.memo`（字符串按值比较，内容相同的新字符串
   一样命中；只有内容变化才重跑格式化与排版，分词按内容缓存）。
-- `@deepseek-harness-tui/dsh-tui/test-utils` 子路径与
+- `@plintash/dsh-tui/test-utils` 子路径与
   `ctx.tuiPluginHost.grants.corrupt` 已随 adapter 分层重构（#705）移除。
 - **后端贡献族（`tui.dsh/v1alpha1` `Backend`，接缝十四）的公开面已随第一版 apiVersion 冻结**：类型面
   （`BackendSpec`、`validateBackendSpec`、`backendAdmission`）与 conformance

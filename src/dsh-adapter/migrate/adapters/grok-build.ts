@@ -6,7 +6,7 @@
  * fingerprint combines both files, and its summary comes from the whole
  * summary.json plus the head of the history.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/grok-build
+ * @module @plintash/dsh-tui/migrate/adapters/grok-build
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'

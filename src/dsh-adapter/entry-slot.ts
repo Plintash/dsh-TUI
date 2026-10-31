@@ -37,7 +37,7 @@ export interface EntrySlot {
   firstFrameFlushed?: () => Promise<void>
 }
 
-const ENTRY_SLOT_KEY = Symbol.for('@deepseek-harness-tui/dsh-tui:host-entry')
+const ENTRY_SLOT_KEY = Symbol.for('@plintash/dsh-tui:host-entry')
 
 type SlotHost = typeof globalThis & { [ENTRY_SLOT_KEY]?: EntrySlot }
 

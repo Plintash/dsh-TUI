@@ -36,7 +36,7 @@ for (const source of ['env', 'memory', 'config', 'dsh', 'proxy-failure', 'cmdlin
   const profileDir = join(home, 'profile')
   const bundle = `@dsh-tui-verify/host-${source}`
   const id = `host-${source}-agent`
-  const bundles = ['@deepseek-ai/dsh-base', '@deepseek-harness-tui/dsh-tui', bundle]
+  const bundles = ['@deepseek-ai/dsh-base', '@plintash/dsh-tui', bundle]
   const packageDir = join(profileDir, 'node_modules', ...bundle.split('/'))
   mkdirSync(packageDir, { recursive: true })
   writeFileSync(join(packageDir, 'package.json'), JSON.stringify({

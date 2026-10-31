@@ -319,7 +319,7 @@ writeFileSync(join(badContainerDir, 'dsh-plugin.json'), declarationWith([contrib
   grants: [],
 })]))
 
-const COMPOSITION_OWNED = ['@deepseek-ai/dsh-base', '@deepseek-harness-tui/dsh-tui']
+const COMPOSITION_OWNED = ['@deepseek-ai/dsh-base', '@plintash/dsh-tui']
 const BUNDLES = [
   ...COMPOSITION_OWNED,
   FIXTURE, DEMO, DEGRADED, WAITING, RESERVED, INVALID, WRONG_API, NOT_A_PLUGIN, CLI, PAIR, NO_EXPORT, BAD_UNLOAD,

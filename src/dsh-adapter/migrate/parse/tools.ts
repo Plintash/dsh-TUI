@@ -14,7 +14,7 @@
  *   orphans and duplicates (counted), and answers unanswered calls with an
  *   empty result.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/parse/tools
+ * @module @plintash/dsh-tui/migrate/parse/tools
  */
 import type { ImportStep, ImportTurn } from '../types.js'
 

@@ -145,7 +145,7 @@
 ### Added（实验性，不在冻结范围）
 
 - [准入与开发指南](docs/plugin-admission-and-development.md)接缝七新增「preset 内的行」：
-  bundle 用 `@deepseek-harness-tui/dsh-tui/preset-patch` 行替换 dsh-TUI 注册的 agent preset
+  bundle 用 `@plintash/dsh-tui/preset-patch` 行替换 dsh-TUI 注册的 agent preset
   里某一行的 `config`（按 id，含嵌套 group）。
 
 ## 2026-10-12（**发布第一版 apiVersion**：`tui.dsh/v1alpha1` 公开面冻结）

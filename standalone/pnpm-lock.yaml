@@ -11,7 +11,7 @@ importers:
       '@deepseek-ai/dsh':
         specifier: 0.2.0-rc.2
         version: 0.2.0-rc.2(4ffdc8ae3252366a993a90a7d16cae74)
-      '@deepseek-harness-tui/dsh-tui':
+      '@plintash/dsh-tui':
         specifier: 0.15.0
         version: 0.15.0(61975065a36cd738f69aed70a2e521cf)
       '@img/sharp-darwin-arm64':
@@ -2355,7 +2355,7 @@ packages:
   '@deepseek-ai/schemastery@3.18.4':
     resolution: {integrity: sha512-SSXO6tYuyrIqKVbmOnIq0s+riUywYzouFMcnBluHF9n4KMo2G8HvEzhCYj6pj2617/glOjbJuVInJ9hfONsjkg==}
 
-  '@deepseek-harness-tui/dsh-tui@0.15.0':
+  '@plintash/dsh-tui@0.15.0':
     resolution: {integrity: sha512-nkqFRJX/dUp/+AQOqHaiTcvZ3YZd9Hme75ULwH4btN6yjGkeGhH2CKm33imJrs7wJ4LJxPGe77mgxfsNhM98/g==}
     engines: {node: ^22.19 || >=24}
     hasBin: true
@@ -7233,7 +7233,7 @@ snapshots:
       '@deepseek-ai/cosmokit': 1.8.5
       '@standard-schema/spec': 1.1.0
 
-  '@deepseek-harness-tui/dsh-tui@0.15.0(61975065a36cd738f69aed70a2e521cf)':
+  '@plintash/dsh-tui@0.15.0(61975065a36cd738f69aed70a2e521cf)':
     dependencies:
       '@alcalzone/ansi-tokenize': 0.3.0
       auto-bind: 5.0.1

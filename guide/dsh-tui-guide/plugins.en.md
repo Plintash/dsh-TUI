@@ -54,10 +54,10 @@ Contract, rule table, and example: seam XI "footer fields" in the
 
 Also an experimental public surface:
 
-- `@deepseek-harness-tui/dsh-tui/api` (types-only entry).
+- `@plintash/dsh-tui/api` (types-only entry).
 - **Rows inside a preset (experimental, seam VII)**: a bundle changes the `config` of a row
   inside a preset dsh-TUI registers (for example, turning off `standard`'s
-  `compaction-basic` auto-compaction) with a `@deepseek-harness-tui/dsh-tui/preset-patch` row;
+  `compaction-basic` auto-compaction) with a `@plintash/dsh-tui/preset-patch` row;
   see seam VII of the [admission and development guide](../tui-profile/docs/plugin-admission-and-development.md).
 - **Side panels (experimental, §18)**: `ctx.tuiPanels.register({ apiVersion:
   1, id, title, icon?, component | compact })` registers a right-sidebar
@@ -68,7 +68,7 @@ Also an experimental public surface:
   descriptor-validated only this phase and not mounted yet**; `sendToChat`
   requires the `panels.chat.attach` grant (a later version) and currently
   always returns `false` with a one-time hint. Types live at
-  `@deepseek-harness-tui/dsh-tui/panels` and `./api`.
+  `@plintash/dsh-tui/panels` and `./api`.
   Panel bodies can use `ui.Markdown` / `ui.CodeBlock` (experimental, narrowed
   wrappers): the first takes a markdown string, the second raw code plus an
   optional language tag (fence length, language-tag sanitising and syntax
@@ -85,7 +85,7 @@ Also an experimental public surface:
   ④ keep the body content **unchanged** to hit `React.memo` (strings compare
   by value, so a fresh string with the same content still hits; only changed
   content re-runs formatting and layout, while lexing is cached by content).
-- The `@deepseek-harness-tui/dsh-tui/test-utils` subpath and
+- The `@plintash/dsh-tui/test-utils` subpath and
   `ctx.tuiPluginHost.grants.corrupt` were removed in the adapter layering
   refactor (#705).
 - **The backend contribution family (`tui.dsh/v1alpha1` `Backend`, seam XIV) has its

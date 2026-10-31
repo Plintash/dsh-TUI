@@ -3,7 +3,7 @@
 [Documentation index](README.md) · [简体中文](contributing.md)
 
 Thanks for considering contributing to dsh-TUI! This guide is the shared
-development contract for humans and coding agents working on `@deepseek-harness-tui/dsh-tui`.
+development contract for humans and coding agents working on `@plintash/dsh-tui`.
 
 ## How To Contribute
 
@@ -116,9 +116,9 @@ are still enforced by GitHub, and Mergify is **not** on any bypass list.
 ## Scope
 
 This file applies to the entire repository. It is the shared development
-contract for humans and coding agents working on `@deepseek-harness-tui/dsh-tui`.
+contract for humans and coding agents working on `@plintash/dsh-tui`.
 
-`@deepseek-harness-tui/dsh-tui` is a single-package, ESM-only TypeScript project.
+`@plintash/dsh-tui` is a single-package, ESM-only TypeScript project.
 It provides a React terminal UI front door for DeepSeek Harness through Cordis.
 
 - The package owns the TUI, its local command surface, and an Ink/Yoga renderer.

@@ -14,7 +14,7 @@
  * `backend_tool_call` rows are provider-side tools (web search) the model
  * never called through the harness; they are counted, not imported.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/grok-build.parse
+ * @module @plintash/dsh-tui/migrate/adapters/grok-build.parse
  */
 import { isInjectedText, unwrapUserText } from '../parse/injection.js'
 import { isRecord, parseJsonl, type JsonRecord } from '../parse/jsonl.js'

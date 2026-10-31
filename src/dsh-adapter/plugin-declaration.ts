@@ -229,7 +229,7 @@ export function declaredGrantsAt(ctx: Context, packageName: string): DeclaredGra
 }
 
 /** This application's own package: the composition, never a plugin of it. */
-export const COMPOSITION_PACKAGE = '@deepseek-harness-tui/dsh-tui'
+export const COMPOSITION_PACKAGE = '@plintash/dsh-tui'
 
 /**
  * What a listed bundle belongs to the composition itself rather than to the

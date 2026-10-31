@@ -46,7 +46,7 @@ npm install -g @deepseek-ai/dsh
 npm install -g pnpm
 
 # Add the scoped package to the dsh-tui profile
-dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui
+dsh plugin --profile dsh-tui add @plintash/dsh-tui
 ```
 
 From a checkout, the repository helper wraps the profile command:
@@ -65,11 +65,11 @@ Earlier releases used the unscoped `dsh-cc-tui` package and a `cc-tui` profile:
 - `CC_TUI_*`/`DSH_CC_*` environment variables.
 - a `~/.dsh-cc` data directory.
 
-The current identity is `@deepseek-harness-tui/dsh-tui` in a `dsh-tui` profile,
+The current identity is `@plintash/dsh-tui` in a `dsh-tui` profile,
 using only `DSH_TUI_*` variables and `~/.dsh-tui`. Create the new profile with:
 
 ```sh
-dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui
+dsh plugin --profile dsh-tui add @plintash/dsh-tui
 dsh --profile dsh-tui
 ```
 
@@ -85,19 +85,19 @@ Once the new profile works:
 
 ## What installation does
 
-On the first `dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui`, the official CLI:
+On the first `dsh plugin --profile dsh-tui add @plintash/dsh-tui`, the official CLI:
 
 1. Initializes `$DSH_HOME/profiles/dsh-tui/`. When `DSH_HOME` is unset, the
    default root is normally `~/.dsh`.
 2. Uses `@deepseek-ai/dsh-base` as the first profile bundle.
-3. Installs `@deepseek-harness-tui/dsh-tui` inside the profile with pnpm.
+3. Installs `@plintash/dsh-tui` inside the profile with pnpm.
 4. Reads the package's `dsh.bundle.patch` metadata and adds its
    `cordis.patch.yml` as a composition layer.
 
 The important startup order is:
 
 ```text
-dsh-base -> other bundles -> @deepseek-harness-tui/dsh-tui patch -> user profile patch
+dsh-base -> other bundles -> @plintash/dsh-tui patch -> user profile patch
 ```
 
 - The base supplies agent, model, session, filesystem, shell, policy, and
@@ -187,11 +187,11 @@ diagnostics, a profile plugin inventory, and repair guidance.
   refused).
 - **Outdated launcher**: upgrade first when the profile copy is unreadable or
   too old:
-  `npm install -g --legacy-peer-deps @deepseek-harness-tui/dsh-tui@<version>`.
+  `npm install -g --legacy-peer-deps @plintash/dsh-tui@<version>`.
 - **Run repair commands yourself** (safe mode only lists them):
   - `dsh plugin --profile dsh-tui remove <third-party plugin>` removes
     suspects one by one;
-  - `dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui@<version>`
+  - `dsh plugin --profile dsh-tui add @plintash/dsh-tui@<version>`
     reinstalls/aligns;
   - `dsh-tui doctor` runs environment diagnostics.
 
@@ -219,7 +219,7 @@ The project moves fast. Updating reuses the install command with an explicit
 `@latest`:
 
 ```sh
-dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui@latest
+dsh plugin --profile dsh-tui add @plintash/dsh-tui@latest
 ```
 
 - Without `@latest`, pnpm resolves within the version range already recorded
@@ -415,7 +415,7 @@ the resume hint and exits (issue #60). Upgrade pnpm to 10+ and reinstall:
 
 ```sh
 npm install -g pnpm@latest
-dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui@latest
+dsh plugin --profile dsh-tui add @plintash/dsh-tui@latest
 ```
 
 ### The model reports missing credentials

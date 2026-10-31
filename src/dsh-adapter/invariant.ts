@@ -1,10 +1,10 @@
 /**
- * Package-owned invariant companion for `@deepseek-harness-tui/dsh-tui`.
+ * Package-owned invariant companion for `@plintash/dsh-tui`.
  *
  * The vendored renderer core is third-party code written against
  * looser compiler flags; the relaxed `tsconfig` options exist only for that
  * subtree and must not spread to new code.
- * @module @deepseek-harness-tui/dsh-tui/invariant
+ * @module @plintash/dsh-tui/invariant
  */
 
 /* jscpd:ignore-start */
@@ -16,7 +16,7 @@ export interface InvariantInstaller {
   readonly inject?: Inject
 }
 
-const PACKAGE_NAME = '@deepseek-harness-tui/dsh-tui'
+const PACKAGE_NAME = '@plintash/dsh-tui'
 
 /** Cordis companion plugin name. */
 export const name = 'dsh-tui-invariant'

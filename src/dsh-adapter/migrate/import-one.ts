@@ -14,7 +14,7 @@
  *      concurrent writer of the same deterministic id: that log is the
  *      winner's, and the import simply opens it.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/import-one
+ * @module @plintash/dsh-tui/migrate/import-one
  */
 import { SessionId, type SessionEvent, type SessionHeader } from '@deepseek-ai/dsh-session'
 import { existsSync } from 'node:fs'

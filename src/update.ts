@@ -25,7 +25,7 @@ import { runInstallerProcess } from './updateProcess.js'
 export { shellQuote }
 export { detachHandoffStdin }
 
-const PACKAGE_NAME = '@deepseek-harness-tui/dsh-tui'
+const PACKAGE_NAME = '@plintash/dsh-tui'
 const DEFAULT_REGISTRY = 'https://registry.npmjs.org'
 const GITHUB_REPO = 'ccch1mneyyy/dsh-TUI'
 const UPDATE_CHECK_TIMEOUT_MS = 4000

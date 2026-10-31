@@ -32,7 +32,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
-const PACKAGE = '@deepseek-harness-tui/dsh-tui'
+const PACKAGE = '@plintash/dsh-tui'
 const PROFILE = 'dsh-tui'
 
 const checkOnly = process.argv.includes('--check')

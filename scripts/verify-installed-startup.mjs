@@ -44,7 +44,7 @@ const launcherShim = executable('dsh-tui')
 // Spawn the JS entry rather than the `.cmd` shim: node-pty would have to route
 // it through cmd.exe and re-quote the payload. The shim itself is covered by
 // scripts/verify-launcher.mjs; this probe is about the installed profile.
-const launcher = packageEntry(launcherShim, '@deepseek-harness-tui', 'dsh-tui', 'bin', 'dsh-tui.js')
+const launcher = packageEntry(launcherShim, '@plintash', 'dsh-tui', 'bin', 'dsh-tui.js')
 const dshEntry = packageEntry(dsh, '@deepseek-ai', 'dsh', 'lib', 'bin.js')
 /**
  * node-pty is a native dependency of the installed dsh, not of this repo.
@@ -69,7 +69,7 @@ const YAML_JS_OUT = { tag: 'tag:yaml.org,2002:js', identify: value => typeof val
 
 /** The dsh-tui row's config in the installed package's bundle patch. */
 function bundleRowConfig() {
-  const patch = join(profile, 'node_modules', '@deepseek-harness-tui', 'dsh-tui', 'cordis.patch.yml')
+  const patch = join(profile, 'node_modules', '@plintash', 'dsh-tui', 'cordis.patch.yml')
   const find = entries => {
     for (const entry of Array.isArray(entries) ? entries : []) {
       if (entry?.id === 'dsh-tui' && entry.config !== undefined) return entry.config

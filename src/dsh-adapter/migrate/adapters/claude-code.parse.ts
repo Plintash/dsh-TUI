@@ -29,7 +29,7 @@
  * ones are rewritten per turn and drift) > the first real prompt as a
  * fallback that is not written to the log.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/claude-code.parse
+ * @module @plintash/dsh-tui/migrate/adapters/claude-code.parse
  */
 import { isRecord, parseJsonl, type JsonRecord } from '../parse/jsonl.js'
 import { isInjectedText, stripSystemReminders, unwrapUserText } from '../parse/injection.js'

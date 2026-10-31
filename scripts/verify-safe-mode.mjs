@@ -41,7 +41,7 @@ import { fileURLToPath } from 'node:url'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const bin = join(root, 'bin', 'dsh-tui.js')
 const ownVersion = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version
-const PACKAGE = '@deepseek-harness-tui/dsh-tui'
+const PACKAGE = '@plintash/dsh-tui'
 const isWin = process.platform === 'win32'
 
 let failures = 0
@@ -157,7 +157,7 @@ if (command === 'plugin') {
   if (process.env.DSH_STUB_NOOP) process.exit(0)
   const pkgDir = join(root, 'node_modules', '@deepseek-harness-tui', 'dsh-tui')
   mkdirSync(pkgDir, { recursive: true })
-  writeFileSync(join(pkgDir, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: 'stub' }))
+  writeFileSync(join(pkgDir, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: 'stub' }))
   process.exit(0)
 }
 process.exit(0)
@@ -276,7 +276,7 @@ const cleanManifest = {
 {
   const r = run(['doctor'])
   const expected = [
-    `dsh-tui doctor · @deepseek-harness-tui/dsh-tui ${ownVersion}`,
+    `dsh-tui doctor · @plintash/dsh-tui ${ownVersion}`,
     `✓ node: ${process.version} · ${process.platform} ${process.arch}`,
     `✗ dsh: 未找到——请先安装：  npm install -g @deepseek-ai/dsh`,
     `✗ pnpm: 未找到——安装/升级需要它：  npm install -g pnpm`,
@@ -969,7 +969,7 @@ const cleanManifest = {
     const r = run(['safe'], { DSH_HOME: invHome })
     check('清单: bundles 与 dependencies 两维度分列', r.stdout.includes('组合层') && r.stdout.includes('直接依赖'))
     // 分类断言只看「直接依赖」区段：bundles 区段里同样有 @deepseek-ai/dsh-base
-    // 与 @deepseek-harness-tui/dsh-tui，跨区段取串会假通过。
+    // 与 @plintash/dsh-tui，跨区段取串会假通过。
     const deps = section(r.stdout, '直接依赖（第三方为可卸载候选）：', '修复命令')
     check('清单: 直接依赖区段非空（断言限定在自己的区段里）', deps.includes(`${PACKAGE}`) && deps.includes('cool-plugin'), JSON.stringify(deps.slice(0, 80)))
     check(

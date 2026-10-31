@@ -968,7 +968,7 @@ try {
   const legacyCtx = new Context()
   const legacyAccount = fakeDeepSeekAccount()
   legacyCtx.provide('loader', {
-    entries: () => [{ options: { id: 'dsh-tui-auth', name: '@deepseek-harness-tui/dsh-tui/oauth' } }],
+    entries: () => [{ options: { id: 'dsh-tui-auth', name: '@plintash/dsh-tui/oauth' } }],
   })
   legacyCtx.provide('llm', { registerAdapter: () => () => {} })
   legacyCtx.provide('commands', { register: () => () => {} })

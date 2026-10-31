@@ -7,7 +7,7 @@
  * windows instead of whole, and an unchanged artifact (same mtime and size)
  * is not read at all when the caller already has its summary.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/scan-fs
+ * @module @plintash/dsh-tui/migrate/adapters/scan-fs
  */
 import { open, readdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'

@@ -16,7 +16,7 @@
  * hostile session file must not be able to drive terminal escape sequences
  * through the preview/report paths (deep-review M2).
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/cli
+ * @module @plintash/dsh-tui/migrate/cli
  */
 import { cleanRenderText } from '../sanitize.js'
 import { messageCount } from './parse/role-turns.js'

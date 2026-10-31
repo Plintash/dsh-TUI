@@ -2,7 +2,7 @@
  * The `/auth` command: a textual veneer over the {@link DshAuthApi} — status
  * listing, login (optionally picking the provider interactively), logout.
  *
- * @module @deepseek-harness-tui/dsh-tui/oauth/command
+ * @module @plintash/dsh-tui/oauth/command
  */
 
 import type { CommandInvocation, CommandResult } from '@deepseek-ai/dsh-commands'

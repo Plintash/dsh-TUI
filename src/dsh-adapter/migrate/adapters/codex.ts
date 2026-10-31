@@ -5,7 +5,7 @@
  * head: the first session_meta, the first real prompt and the sub-agent
  * marker all sit there.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/codex
+ * @module @plintash/dsh-tui/migrate/adapters/codex
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'

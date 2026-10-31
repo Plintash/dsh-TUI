@@ -107,7 +107,7 @@ export function createDeepSeekCallbackOriginResolver(ctx: Context): {
 
 const tuiVersion = (() => {
   try {
-    const manifest = JSON.parse(readFileSync(new URL(import.meta.resolve('@deepseek-harness-tui/dsh-tui/package.json')), 'utf8')) as { version?: unknown }
+    const manifest = JSON.parse(readFileSync(new URL(import.meta.resolve('@plintash/dsh-tui/package.json')), 'utf8')) as { version?: unknown }
     return typeof manifest.version === 'string' ? manifest.version : '0.0.0'
   } catch {
     return '0.0.0'

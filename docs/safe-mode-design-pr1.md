@@ -32,7 +32,7 @@ dsh-tui 是 cordis 插件体系的纯插件：profile 装坏时 dsh 组合起不
 
 **为什么必须单文件内联**：全局启动器由 `migrateGlobalLauncher`（`src/update.ts:1285`）以"入口文件 + 包清单"覆写——只拿到新入口、拿不到新模块文件的安装真实存在；`bin/dsh-tui.js:23` 的入口契约与迁移实现都只覆盖单文件。拆分模块在该场景下静态导入坏掉全部入口、动态导入令 safe 不可达。safe 菜单以内联函数区段实现，预计使 `bin/dsh-tui.js` 从 574 行增至 ~950 行——为迁移自保接受此膨胀（与 `bin/dsh-tui.js:89-91` "零外部依赖是自保底线"同源的约束，升级为"单文件自包含"）。
 
-**旧启动器兼容（前提重述）**：旧全局启动器把 `safe` 透传给 profile 副本、由新版副本截获——**前提是副本入口可读且为新版**；profile 包损坏/副本缺失时，旧全局启动器会在自举或委托读取处先行失败（`bin/dsh-tui.js:430-439`），此场景的救援指引是升级全局启动器（`npm i -g @deepseek-harness-tui/dsh-tui`）或直接重装，README 如实写明。自动 fallback 的承接范围限定为最终 dsh 子进程的退出结果（§5），不承诺接住更早的启动器自身失败。
+**旧启动器兼容（前提重述）**：旧全局启动器把 `safe` 透传给 profile 副本、由新版副本截获——**前提是副本入口可读且为新版**；profile 包损坏/副本缺失时，旧全局启动器会在自举或委托读取处先行失败（`bin/dsh-tui.js:430-439`），此场景的救援指引是升级全局启动器（`npm i -g @plintash/dsh-tui`）或直接重装，README 如实写明。自动 fallback 的承接范围限定为最终 dsh 子进程的退出结果（§5），不承诺接住更早的启动器自身失败。
 
 **参数消费**：`safe` 作为首参被截获消费；其后若还有参数，忽略并在标题下提示一行"已忽略附加参数：<n> 个"（不做参数语义）。
 
@@ -93,8 +93,8 @@ profile: <profileDir>
 
 - **动作 1**：按 §4/§5.3 执行（profileReady 前置检查、重放启动上下文）
 - **动作 2**：`runDoctorChecks()`（§7.1）
-- **动作 3**：读 `profileDir/package.json`，两维度分列——`dsh.profile.bundles`（有序组合层，只读展示）与 `dependencies`（直接依赖）；保护包 = `@deepseek-ai/dsh-base`、本包 `@deepseek-harness-tui/dsh-tui`，标注"内置"；其余标注"第三方"。文件缺失/损坏/字段缺失或类型错误 → 降级显示「清单不可读：<原因>」与指引，safe 自身绝不崩溃。两维度分类是后续 PR② 卸载功能将复用的唯一分类规则，不得合并简化
-- **动作 4**：可复制的完整命令——`dsh plugin --profile dsh-tui remove <包名>`（附动作 3 解析出的第三方直接依赖作为候选）、`dsh plugin --profile dsh-tui add @deepseek-harness-tui/dsh-tui@<版本>`（重装/对齐）、`dsh-tui doctor`、升级指引；明示"变更命令需自行执行"
+- **动作 3**：读 `profileDir/package.json`，两维度分列——`dsh.profile.bundles`（有序组合层，只读展示）与 `dependencies`（直接依赖）；保护包 = `@deepseek-ai/dsh-base`、本包 `@plintash/dsh-tui`，标注"内置"；其余标注"第三方"。文件缺失/损坏/字段缺失或类型错误 → 降级显示「清单不可读：<原因>」与指引，safe 自身绝不崩溃。两维度分类是后续 PR② 卸载功能将复用的唯一分类规则，不得合并简化
+- **动作 4**：可复制的完整命令——`dsh plugin --profile dsh-tui remove <包名>`（附动作 3 解析出的第三方直接依赖作为候选）、`dsh plugin --profile dsh-tui add @plintash/dsh-tui@<版本>`（重装/对齐）、`dsh-tui doctor`、升级指引；明示"变更命令需自行执行"
 - **动作 5**：以 pendingExitCode（无则 0）退出
 
 ### 6.2 交互、降级与终端所有权

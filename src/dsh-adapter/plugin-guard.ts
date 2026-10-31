@@ -4,7 +4,7 @@
  *
  * The host's plugin manager protects a hardcoded list of first-party module
  * names, plus the bundle that inserted the manager itself. This package is
- * neither: its rows are named `@deepseek-harness-tui/dsh-tui` and friends, so
+ * neither: its rows are named `@plintash/dsh-tui` and friends, so
  * the host reports them as perfectly addressable and will switch them off on
  * request — `/plugin disable dsh-tui` would take the running TUI layer down
  * mid-session. The manager's own `stop-profile` guard does not stand in the

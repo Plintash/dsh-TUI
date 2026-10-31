@@ -45,14 +45,14 @@ const MANIFEST_ENTRIES = [
   'node_modules/@deepseek-ai/dsh-app-boot/lib/index.js',
   'node_modules/@deepseek-ai/dsh/package.json',
   'node_modules/@deepseek-ai/cordis/lib/index.js',
-  'node_modules/@deepseek-harness-tui/dsh-tui/lib/types/index.js',
-  'node_modules/@deepseek-harness-tui/dsh-tui/lib/types/update.js',
-  'node_modules/@deepseek-harness-tui/dsh-tui/bin/dsh-tui.js',
-  'node_modules/@deepseek-harness-tui/dsh-tui/cli/*.mjs',
-  'node_modules/@deepseek-harness-tui/dsh-tui/cli/adapters/dsh/*.mjs',
-  'node_modules/@deepseek-harness-tui/dsh-tui/cli/schema-v1.json',
-  'node_modules/@deepseek-harness-tui/dsh-tui/package.json',
-  'node_modules/@deepseek-harness-tui/dsh-tui/cordis.patch.yml',
+  'node_modules/@plintash/dsh-tui/lib/types/index.js',
+  'node_modules/@plintash/dsh-tui/lib/types/update.js',
+  'node_modules/@plintash/dsh-tui/bin/dsh-tui.js',
+  'node_modules/@plintash/dsh-tui/cli/*.mjs',
+  'node_modules/@plintash/dsh-tui/cli/adapters/dsh/*.mjs',
+  'node_modules/@plintash/dsh-tui/cli/schema-v1.json',
+  'node_modules/@plintash/dsh-tui/package.json',
+  'node_modules/@plintash/dsh-tui/cordis.patch.yml',
 ]
 
 /** 单段通配展开：`a/b-*-c.js` 在 root 下匹配实际文件，排序保证稳定。 */

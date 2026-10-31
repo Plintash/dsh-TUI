@@ -12,7 +12,7 @@
 export const name = 'dsh-tui-preset-patch'
 
 /** Module name a preset-patch row uses. */
-export const PRESET_PATCH_MODULE = '@deepseek-harness-tui/dsh-tui/preset-patch'
+export const PRESET_PATCH_MODULE = '@plintash/dsh-tui/preset-patch'
 
 /** The config of one preset-patch row. */
 export interface PresetPatchConfig {

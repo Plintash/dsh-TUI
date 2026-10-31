@@ -6,7 +6,7 @@
  * must be attached after `agents.create()` succeeds. Resuming also attaches
  * idempotently, which migrates sessions written by older TUI versions.
  *
- * @module @deepseek-harness-tui/dsh-tui/workspace
+ * @module @plintash/dsh-tui/workspace
  */
 import type { Context } from '@deepseek-ai/cordis'
 import type { SessionId } from '@deepseek-ai/dsh-session'

@@ -77,10 +77,10 @@ const { updateTuiAndRestart } = await import('../lib/types/update.js')
 
 const EEXIST_STDERR =
   "ERR_PNPM_EEXIST  EEXIST: file already exists, rename " +
-  "'/root/.dsh/profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui/node_modules' " +
-  "-> '/root/.dsh/profiles/dsh-tui/node_modules/@deepseek-harness-tui/dsh-tui_tmp_2424672_1/node_modules'"
+  "'/root/.dsh/profiles/dsh-tui/node_modules/@plintash/dsh-tui/node_modules' " +
+  "-> '/root/.dsh/profiles/dsh-tui/node_modules/@plintash/dsh-tui_tmp_2424672_1/node_modules'"
 const TRANSIENT_STDERR =
-  "[ERR_PNPM_ENOENT] [importPackage D:\\p\\node_modules\\@deepseek-harness-tui\\dsh-tui] " +
+  "[ERR_PNPM_ENOENT] [importPackage D:\\p\\node_modules\\@plintash\\dsh-tui] " +
   "ENOENT: no such file or directory, scandir 'D:\\p\\dsh-tui_tmp_40044_1\\node_modules'"
 const REAL_FAILURE_STDERR =
   'ERR_PNPM_FETCH_404 GET https://registry.npmjs.org/x: Not Found - 404'
@@ -126,10 +126,10 @@ function makeScenario(name, plan) {
   }
 
   // Profile layout with the stale install + leftover staging (#479 shape).
-  const scope = join(dshHome, 'profiles', 'dsh-tui', 'node_modules', '@deepseek-harness-tui')
+  const scope = join(dshHome, 'profiles', 'dsh-tui', 'node_modules', '@plintash')
   const stalePkg = join(scope, 'dsh-tui')
   mkdirSync(join(stalePkg, 'lib'), { recursive: true })
-  writeFileSync(join(stalePkg, 'package.json'), JSON.stringify({ name: '@deepseek-harness-tui/dsh-tui', version: '0.8.7' }))
+  writeFileSync(join(stalePkg, 'package.json'), JSON.stringify({ name: '@plintash/dsh-tui', version: '0.8.7' }))
   mkdirSync(join(scope, 'dsh-tui_tmp_2424672_1'))
   writeFileSync(join(scope, 'dsh-tui_tmp_2424672_1', 'leftover'), 'x')
   // Neighbors that must survive every recovery.

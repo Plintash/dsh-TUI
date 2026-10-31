@@ -5,7 +5,7 @@
  * whichever entry imported it: trim, collapse inner whitespace (a title is
  * one line), cap at {@link TITLE_MAX_CHARS} code points with a trailing `…`.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/parse/title
+ * @module @plintash/dsh-tui/migrate/parse/title
  */
 
 /** Longest normalized title, in code points (the ellipsis included). */

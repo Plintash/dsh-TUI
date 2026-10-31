@@ -7,7 +7,7 @@
  * no sample of this store with tool traffic or reasoning has been available,
  * so no such field is guessed at.
  *
- * @module @deepseek-harness-tui/dsh-tui/migrate/adapters/zcode.parse
+ * @module @plintash/dsh-tui/migrate/adapters/zcode.parse
  */
 import { isInjectedText, unwrapUserText } from '../parse/injection.js'
 import { isRecord } from '../parse/jsonl.js'
