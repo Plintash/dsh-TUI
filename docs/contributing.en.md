@@ -76,6 +76,16 @@ before submission, complementary to the gates and CI:
   terminal-visible changes through the affected flows in a real terminal.
   State plainly what was not run in the PR's Verification section — never
   dress "should pass" as "verified".
+- **Run an independent self-review before opening a PR**: have a fresh-context
+  subagent run `.agents/skills/review` against the final head and answer all
+  five axes with evidence. A `code-review` pass by the author (the
+  Standards/Spec pair) does not replace it: those two axes never ask whether
+  existing behavior broke, which is exactly the regression that gets missed.
+- **Assert at the effect layer**: for input, terminal, projection, and
+  rendering changes, assert the user-visible result (`InputEvent.input`, the
+  projected row content, the screen frame), not only the parsed structure the
+  implementation itself defines. A same-source assertion fails with the
+  implementation — all green proves nothing about behavior.
 
 ### When the gates take effect
 
