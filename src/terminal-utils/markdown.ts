@@ -23,7 +23,7 @@ import { buildSyntaxTheme } from './syntaxTheme.js'
 import type { CliHighlight } from './cliHighlight.js'
 import { logForDebugging } from '../utils/debug.js'
 import { createHyperlink } from './hyperlink.js'
-import { fileLinkUrl, linkifyFilePaths, looksLikeFilePath } from '../utils/fileTarget.js'
+import { fileLinkUrl, linkifyFilePaths, looksLikeFilePath, parseFileLinkUrl } from '../utils/fileTarget.js'
 import { getMathRendering } from '../tuiDisplayPrefs.js'
 import { noteCodeHighlight, noteFormatToken } from '../ink/render-stats.js'
 import { CJK_EMPHASIS_EXTENSIONS } from './cjk-emphasis.js'
@@ -490,6 +490,13 @@ function renderImage(token: Tokens.Image, state: RenderState): string {
     // href; show the alt (or the URL) as plain text, like nested labels.
     return alt || token.href
   }
+  // Our file scheme is only clickable where the terminal hands the target back
+  // to the TUI (see supportsFileLinkScheme); elsewhere the OS opener would get
+  // a scheme it cannot resolve, so the target stays plain text.
+  const filePath = parseFileLinkUrl(token.href)
+  if (filePath !== undefined && !supportsFileLinkScheme()) {
+    return alt || filePath
+  }
   if (!supportsHyperlinks()) {
     return alt ? `[img] ${alt} (${token.href})` : token.href
   }
@@ -505,6 +512,13 @@ function renderLink(token: Tokens.Link, state: RenderState): string {
     .map(child => dispatch(child, withParent(fresh(state), token)))
     .join('')
   const plainLabel = stripAnsi(label)
+  // Explicit `dsh-file:` targets obey the same capability as generated ones:
+  // where the terminal resolves OSC 8 itself (rio), a click would hand the OS
+  // a scheme it has no handler for. Keep the label (or the decoded path).
+  const filePath = parseFileLinkUrl(token.href)
+  if (filePath !== undefined && !supportsFileLinkScheme()) {
+    return plainLabel || filePath
+  }
   // Meaningful display text (different from the URL) becomes a clickable
   // hyperlink; otherwise just show the URL.
   if (plainLabel && plainLabel !== token.href) {

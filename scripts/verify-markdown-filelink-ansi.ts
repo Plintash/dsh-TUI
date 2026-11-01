@@ -196,6 +196,23 @@ try {
     rioMixed.includes('\u001b]8;;https://example.com'),
     JSON.stringify(rioMixed).slice(0, 200),
   )
+  // 显式 `[x](dsh-file:…)` 与生成的路径链接同一能力位：rio 下不能发出去，
+  // 否则点击交给系统打开器，而 `dsh-file:` 没有处理器。
+  const rioExplicit = applyMarkdown('[源码](dsh-file:src%2Futils%2FfileTarget.ts)')
+  check(
+    'rio 下显式 dsh-file 链接不发 OSC 8，标签保留',
+    !rioExplicit.includes('\u001b]8;;dsh-file:') && rioExplicit.includes('源码'),
+    JSON.stringify(rioExplicit).slice(0, 200),
+  )
+  // 代码块不做链接化：高亮后的 ANSI 片段里再嵌 OSC 8 会破坏配色边界，
+  // 裸 URL 交给终端自己的 hint 扫描（与提交描述一致，不夸大）。
+  process.env.TERM_PROGRAM = 'kitty'
+  const fenced = applyMarkdown('```sh\ncurl https://example.com/x \\\n  -H "a: b"\n```')
+  check(
+    '代码块里的 URL 保持纯文本（不生成 OSC 8）',
+    !fenced.includes('\u001b]8;;'),
+    JSON.stringify(fenced).slice(0, 200),
+  )
 } finally {
   chalk.level = prevLevel
 }
