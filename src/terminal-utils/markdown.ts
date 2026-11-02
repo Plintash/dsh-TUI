@@ -22,8 +22,8 @@ import { getActiveTheme } from '../theme.js'
 import { buildSyntaxTheme } from './syntaxTheme.js'
 import type { CliHighlight } from './cliHighlight.js'
 import { logForDebugging } from '../utils/debug.js'
-import { createHyperlink } from './hyperlink.js'
-import { fileLinkUrl, linkifyFilePaths, looksLikeFilePath, parseFileLinkUrl } from '../utils/fileTarget.js'
+import { createHyperlink, sanitizeHyperlinkText } from './hyperlink.js'
+import { FILE_LINK_SCHEME, fileLinkUrl, linkifyFilePaths, looksLikeFilePath, parseFileLinkUrl } from '../utils/fileTarget.js'
 import { getMathRendering } from '../tuiDisplayPrefs.js'
 import { noteCodeHighlight, noteFormatToken } from '../ink/render-stats.js'
 import { CJK_EMPHASIS_EXTENSIONS } from './cjk-emphasis.js'
@@ -478,6 +478,16 @@ function renderHeading(token: Tokens.Heading, state: RenderState): string {
   return styled + EOL
 }
 
+/** Plain display for file targets the terminal cannot open, including malformed payloads. */
+function fileLinkFallback(href: string, label: string): string | undefined {
+  if (
+    href.slice(0, FILE_LINK_SCHEME.length).toLowerCase() !== FILE_LINK_SCHEME ||
+    supportsFileLinkScheme()
+  ) return undefined
+  const path = parseFileLinkUrl(href) ?? href.slice(FILE_LINK_SCHEME.length)
+  return sanitizeHyperlinkText(label || path)
+}
+
 /**
  * Image reference: `[img]` plus the alt text, linked to the source URL
  * with OSC 8. Nothing is fetched; the href is only a click target.
@@ -490,13 +500,8 @@ function renderImage(token: Tokens.Image, state: RenderState): string {
     // href; show the alt (or the URL) as plain text, like nested labels.
     return alt || token.href
   }
-  // Our file scheme is only clickable where the terminal hands the target back
-  // to the TUI (see supportsFileLinkScheme); elsewhere the OS opener would get
-  // a scheme it cannot resolve, so the target stays plain text.
-  const filePath = parseFileLinkUrl(token.href)
-  if (filePath !== undefined && !supportsFileLinkScheme()) {
-    return alt || filePath
-  }
+  const fallback = fileLinkFallback(token.href, alt)
+  if (fallback !== undefined) return fallback
   if (!supportsHyperlinks()) {
     return alt ? `[img] ${alt} (${token.href})` : token.href
   }
@@ -512,13 +517,8 @@ function renderLink(token: Tokens.Link, state: RenderState): string {
     .map(child => dispatch(child, withParent(fresh(state), token)))
     .join('')
   const plainLabel = stripAnsi(label)
-  // Explicit `dsh-file:` targets obey the same capability as generated ones:
-  // where the terminal resolves OSC 8 itself (rio), a click would hand the OS
-  // a scheme it has no handler for. Keep the label (or the decoded path).
-  const filePath = parseFileLinkUrl(token.href)
-  if (filePath !== undefined && !supportsFileLinkScheme()) {
-    return plainLabel || filePath
-  }
+  const fallback = fileLinkFallback(token.href, plainLabel)
+  if (fallback !== undefined) return fallback
   // Meaningful display text (different from the URL) becomes a clickable
   // hyperlink; otherwise just show the URL.
   if (plainLabel && plainLabel !== token.href) {

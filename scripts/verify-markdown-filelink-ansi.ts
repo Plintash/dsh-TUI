@@ -6,6 +6,7 @@
  * （`[38;2;…m` / `[39m`）原样上屏（浅色主题 permission `#3F6CC4` 场景）。
  * 回归断言：路径代码段输出要么带完整 `\x1b` 序列、要么无任何参数残片；
  * 样式化链接标签（加粗等）同样不得残留 `[1m` 等裸参数。
+ * 同时覆盖文件链接降级的转义清理与代码里的全屏 URL 点击边界。
  *
  * Run: node --import tsx/esm scripts/verify-markdown-filelink-ansi.ts
  */
@@ -22,6 +23,10 @@ const { Markdown } = await import('../src/components/Markdown.js')
 const { StreamingMarkdown } = await import('../src/components/StreamingMarkdown.js')
 const { renderToScreen } = await import('../src/ink/render-to-screen.js')
 const { cellAtIndex } = await import('../src/ink/screen.js')
+const { findPlainTextUrlAt } = await import('../src/ink/selection.js')
+const { Box } = await import('../src/ui.js')
+const { TerminalSizeContext } = await import('../src/ink/components/TerminalSizeContext.js')
+const { classifyOpenTarget } = await import('../src/utils/urlGuard.js')
 const { setActiveThemeName } = await import('../src/theme.js')
 
 let failures = 0
@@ -30,6 +35,18 @@ const check = (name: string, ok: boolean, detail = ''): void => {
   checks += 1
   if (!ok) failures += 1
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${name}${ok || detail === '' ? '' : `: ${detail}`}`)
+}
+
+function markdownScreen(source: string, width = 100) {
+  const tree = React.createElement(
+    TerminalSizeContext.Provider,
+    { value: { columns: width, rows: 40 } },
+    React.createElement(Box, { flexDirection: 'column', width },
+      React.createElement(Markdown, { children: source })),
+  )
+  const { screen, height } = renderToScreen(tree, width)
+  const cells = Array.from({ length: width * height }, (_, index) => cellAtIndex(screen, index))
+  return { screen, cells }
 }
 
 const prevLevel = chalk.level
@@ -204,8 +221,62 @@ try {
     !rioExplicit.includes('\u001b]8;;dsh-file:') && rioExplicit.includes('源码'),
     JSON.stringify(rioExplicit).slice(0, 200),
   )
-  // 代码块不做链接化：高亮后的 ANSI 片段里再嵌 OSC 8 会破坏配色边界，
-  // 裸 URL 交给终端自己的 hint 扫描（与提交描述一致，不夸大）。
+  for (const href of ['DSH-FILE:src%2Ffoo.ts', 'dsh-file:src%2Ffoo%ZZ.ts']) {
+    for (const marker of ['', '!']) {
+      const source = `${marker}[source](${href})`
+      check(`rio 文件协议门禁覆盖 ${source}`, applyMarkdown(source) === 'source')
+    }
+  }
+  check(
+    '文件点击处理接受大小写不敏感的协议名',
+    JSON.stringify(classifyOpenTarget('DSH-FILE:src%2Ffoo.ts')) ===
+      JSON.stringify({ kind: 'file-actions', path: 'src/foo.ts' }),
+  )
+  for (const payload of [
+    '\u001b]8;;https://example.com\u0007probe\u001b]8;;\u0007',
+    '\u001b]8;;https://example.com\u001b\\probe\u001b]8;;\u001b\\',
+    '\u001b[31mprobe\u001b[0m\u0000\u009c',
+  ]) {
+    for (const marker of ['', '!']) {
+      const source = `${marker}[](dsh-file:${encodeURIComponent(payload)})`
+      check('解码后的文件链接降级文本清除终端控制序列', applyMarkdown(source) === 'probe')
+      const { cells } = markdownScreen(source)
+      check('文件链接降级后的屏幕仅显示文本且没有隐藏超链接',
+        cells.map(cell => cell.char).join('').trim() === 'probe' &&
+        cells.every(cell => cell.hyperlink === undefined))
+    }
+  }
+  check('没有标签的普通文件链接保留解码后的路径',
+    applyMarkdown('[](dsh-file:src%2Ffoo.ts)') === 'src/foo.ts')
+  check('无效编码的文件链接保留原始路径文本',
+    applyMarkdown('[](dsh-file:src%2Ffoo%ZZ.ts)') === 'src%2Ffoo%ZZ.ts')
+
+  // Fullscreen clicks read the screen's plain URL fallback, even when the
+  // terminal itself supports OSC 8. Shell escapes must stay outside its target.
+  const url = 'https://example.com'
+  const shell = String.raw`printf '\e]8;;https://example.com\e\\OSC8 链接\e]8;;\e\\'`
+  for (const terminal of ['rio', 'ghostty']) {
+    process.env.TERM_PROGRAM = terminal
+    for (const source of ['`' + shell + '`', '```sh\n' + shell + '\n```']) {
+      for (const width of [60, 100]) {
+        const { screen, cells } = markdownScreen(source, width)
+        const text = cells.map(cell => cell.char).join('')
+        const start = text.indexOf(url)
+        check(`${terminal} ${width} 列代码中的 URL 可见`, start >= 0)
+        if (start < 0) continue
+        const row = Math.floor(start / width)
+        const col = start % width
+        check(`${terminal} ${width} 列 URL 每个字符都返回完整目标`,
+          Array.from({ length: url.length }, (_, offset) =>
+            findPlainTextUrlAt(screen, col + offset, row)).every(target => target === url))
+        check(`${terminal} ${width} 列 shell 转义不属于链接点击范围`,
+          findPlainTextUrlAt(screen, col + url.length, row) === undefined &&
+          findPlainTextUrlAt(screen, col + url.length + 4, row) === undefined)
+      }
+    }
+  }
+  // Code blocks keep their existing ANSI output. Fullscreen clicks use the
+  // plain URL fallback above; native terminal hints handle terminal-owned clicks.
   process.env.TERM_PROGRAM = 'kitty'
   const fenced = applyMarkdown('```sh\ncurl https://example.com/x \\\n  -H "a: b"\n```')
   check(
