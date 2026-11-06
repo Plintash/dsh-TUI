@@ -51,7 +51,7 @@ side panel (`Ctrl+B`/`Alt+Z`), subagent dashboard, show-all, and todo fold are r
 
 - The `Ctrl+<key>` bindings above also work with `⌘<key>` on macOS (e.g. `⌘V` paste, `⌘O` expand details, `⌘Enter` send immediately).
 - Only `Ctrl+C` / `Ctrl+D` (interrupt/exit) stay on Ctrl, to avoid clashing with muscle memory for macOS system-level `⌘C` copy and similar.
-- `⌘` requires terminal support for the extended keyboard protocol (iTerm2 / kitty / WezTerm / ghostty / rio / tmux). A terminal outside that list can opt in with `DSH_TUI_FORCE_EXTENDED_KEYS=1`; rio 0.5.x enables the protocol by default.
+- `⌘` requires terminal support for the extended keyboard protocol (iTerm2 / kitty / WezTerm / ghostty / rio / Orca / tmux). A terminal outside that list can opt in with `DSH_TUI_FORCE_EXTENDED_KEYS=1`; rio 0.5.x enables the protocol by default.
 - macOS's built-in Terminal.app consumes `⌘` shortcuts itself, so keep using `Ctrl`.
 
 `/` has two meanings:
@@ -341,15 +341,16 @@ While the model is working, three paths have different placement:
     Claude CLI that cannot withdraw them, or when the withdrawal request fails,
     the backend still runs them next turn; dsh-TUI stops holding them, says so,
     and never sends them twice.
-  - Messages the DSH kernel dropped without running them (the session ended
-    unexpectedly, or the kernel discarded them) are held as "not delivered";
-    Claude and Codex still report such losses as discarded, so those are not
-    held. Held messages are never re-sent by themselves and stay for the next
-    session; on DSH, a message submitted after the session ended is held the
-    same way. While the session
-    is ended `⏎` sends nothing: `/new` starts a new session and `⏎` sends them
-    there, or `/restart` resumes this one (only text survives a restart).
-    Images attached to a held message stay with it into the next session. A held
+  - Messages dropped without running them (the session ended unexpectedly, or
+    the backend discarded them) are held as "not delivered": a loss whose
+    delivery is unknown — sent before a connection dropped, or Codex's
+    `turn/start` timing out — stays `discarded` and is not held, so nothing
+    runs twice. Held messages are never re-sent by themselves and stay for the
+    next session; on DSH, a message submitted after the session ended is held
+    the same way. While the session is ended `⏎` sends nothing: `/new` starts
+    a new session and `⏎` sends them there, or `/restart` resumes this one.
+    Images attached to a held message stay with it into the next session and
+    across a `/restart`. A held
     message taken back with `↑` while the session is ended is an ordinary draft
     again, and a draft's images do not survive `/new`: to keep the images,
     run `/new` first and edit there.
@@ -803,6 +804,10 @@ reason; see [Claude backend](claude-backend.en.md#approvals-and-questions).
 
 The command menu merges local commands with the DSH command registry. Type `/` to inspect the complete surface available in the current composition.
 
+- A command may sit **anywhere in the draft, on any line** (`look at /toti` and a command on its own line inside a multi-line paragraph both open the menu): `Tab`/`Enter` replace only the command run under the caret and leave the surrounding text and other lines alone, while `Esc` closes the menu without clearing the draft. Only a run that **covers the whole draft** (nothing before or after it) runs on `Enter`; anything else only completes, and a multi-line draft is always sent as prose, never run as one command.
+- An earlier command or path on the line does not hide the run under the caret: `/plugin info /p` keeps `/p` as an argument of `info` instead of opening a new command, while `/help then /model` opens the later `/model`.
+- Matching is tiered: exact → prefix → prefix ignoring `-`/`_` → subsequence. `/toti` finds `/to-tickets`, `/cmp` finds `/compact`, `/tt` finds `/to-tickets`; higher tiers sort first, and catalog order is kept within a tier.
+- Subsequence abbreviations apply to command names only. Argument catalogs (models, themes, plugin specs) match from the start of the whole candidate, so a two-letter query cannot drag a long list out.
 - **While a turn is running**, the overlay groups commands by their impact on the current conversation: the harmless ones stay on top in their normal style, while gated, interrupting, replacing or steering commands sink to the bottom in the theme's grey (`subtle`, no header row) — and stay selectable there.
 - Command descriptions follow the UI language (`/lang`).
 - Built-in commands and mapped registry commands (`/plan`, `/goal`, `/feedback`) show Chinese translations in zh.
