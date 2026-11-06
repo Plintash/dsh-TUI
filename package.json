@@ -1,6 +1,6 @@
 {
   "name": "@plintash/dsh-tui",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "description": "Interactive terminal interface for DeepSeek Harness agents, sessions and tools.",
   "keywords": [
     "dsh",
